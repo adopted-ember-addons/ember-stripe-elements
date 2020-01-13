@@ -32,12 +32,12 @@ module('Integration | Component | stripe-card', function(hooks) {
 
   test('yields out error message', async function(assert) {
     this.stripeError = { message: 'oops' };
-    await this.render(hbs`
+    await render(hbs`
       {{#stripe-card stripeError=stripeError as |stripeElement stripeError|}}
         {{stripeError.message}}
       {{/stripe-card}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'oops');
+    assert.equal(this.element.querySelector('.ember-stripe-element').textContent.trim(), 'oops');
   });
 });

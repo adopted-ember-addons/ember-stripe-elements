@@ -3,53 +3,53 @@
 </p>
 
 <div class="input-group">
-  {{#stripe-card autofocus=true options=cardOptions as |stripeElement stripeError|}}
+  <StripeCard @autofocus={{true}} @options={{this.cardOptions}} as |stripeElement stripeError|>
     {{#if stripeError}}
       <p class="error">{{stripeError.message}}</p>
     {{/if}}
-    <button {{action "submit" stripeElement}}>Submit</button>
-    {{#if token}}
-      <p>Your token: <code>{{token.id}}</code></p>
+    <button {{on "submit" stripeElement}} type="button">Submit</button>
+    {{#if this.token}}
+      <p>Your token: <code>{{this.token.id}}</code></p>
     {{/if}}
-  {{/stripe-card}}
+  </StripeCard>
 </div>
 
 <p>
-  <code>\{{stripe-card}}</code>
+  <code><StripeCard /></code>
 </p>
 
 <div class="input-group">
-  {{stripe-card}}
+  <StripeCard />
 </div>
 
 <p>
-  <code>\{{stripe-card-number}}</code>
+  <code><StripeCardNumber /></code>
 </p>
 
 <div class="input-group">
-  {{stripe-card-number options=options}}
+  <StripeCardNumber @options={{this.options}} />
 </div>
 
 <p>
-  <code>\{{stripe-card-expiry}}</code>
+  <code><StripeCardExpiry /></code>
 </p>
 
 <div class="input-group">
-  {{stripe-card-expiry options=options}}
+  <StripeCardExpiry @options={{this.options}} />
 </div>
 
 <p>
-  <code>\{{stripe-card-cvc}}</code>
+  <code><StripeCardCvc /></code>
 </p>
 
 <div class="input-group">
-  {{stripe-card-cvc options=options}}
+  <StripeCardCvc @options={{this.options}} />
 </div>
 
 <p>
-  <code>\{{stripe-postal-code}}</code>
+  <code><StripePostalCode /></code>
 </p>
 
 <div class="input-group">
-  {{stripe-postal-code options=options}}
+  <StripePostalCode @options={{this.options}} />
 </div>
