@@ -1,7 +1,7 @@
 {
   "name": "ember-stripe-elements",
   "version": "0.4.0",
-  "description": "A simple Ember wrapper for Stripe Elements.",
+  "description": "A simple Ember wrapper for Stripe Elements",
   "keywords": [
     "credit card",
     "ember-addon",
@@ -15,7 +15,7 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "https://github.com/code-corps/ember-stripe-elements",
+  "repository": "https://github.com/adopted-ember-addons/ember-stripe-elements",
   "scripts": {
     "build": "ember build",
     "lint:hbs": "ember-template-lint .",
@@ -23,7 +23,6 @@
     "start": "ember serve",
     "test": "ember test  --query 'nolint&nojscs'",
     "test:all": "ember try:each",
-    "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once"
   },
   "dependencies": {
@@ -57,7 +56,6 @@
     "eslint-plugin-ember": "^6.7.0",
     "eslint-plugin-node": "^9.1.0",
     "loader.js": "^4.2.3",
-    "semantic-release": "^15.13.16",
     "travis-deploy-once": "^5.0.0"
   },
   "engines": {
