@@ -6,21 +6,28 @@ export default Component.extend({
   classNames: ['ember-stripe-element'],
 
   autofocus: false,
-  options: {},
+  options: null,
   stripeElement: null,
   stripeError: null,
   type: null, // Set in components that extend from `stripe-element`
 
   stripev3: service(),
-  elements: computed(function() {
-    return get(this, 'stripev3.elements')();
+
+  elements: computed({
+    get() {
+      return get(this, 'stripev3.elements')();
+    },
+
+    set(key, value) {
+      return value;
+    }
   }),
 
   didInsertElement() {
     this._super(...arguments);
 
     // Fetch user options
-    let options = get(this, 'options');
+    let options = get(this, 'options') || {};
 
     // Fetch `type` set by child component
     let type = get(this, 'type');
@@ -53,7 +60,8 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    get(this, 'stripeElement').update(get(this, 'options'));
+    let options = get(this, 'options') || {};
+    get(this, 'stripeElement').update(options);
   },
 
   willDestroyElement() {
@@ -63,20 +71,51 @@ export default Component.extend({
 
   setEventListeners() {
     let stripeElement = get(this, 'stripeElement');
-    stripeElement.on('ready',   (event) => this.sendAction('ready', stripeElement, event));
-    stripeElement.on('blur',    (event) => this.sendAction('blur', stripeElement, event));
-    stripeElement.on('focus',   (event) => this.sendAction('focus', stripeElement, event));
-    stripeElement.on('change',  (...args) => {
+
+    stripeElement.on('ready', (event) => {
+      this._invokeAction('ready', stripeElement, event)
+    });
+
+    stripeElement.on('blur', (event) => {
+      this._invokeAction('blur', stripeElement, event)
+    });
+
+    stripeElement.on('focus', (event) => {
+      this._invokeAction('focus', stripeElement, event)
+    });
+
+    stripeElement.on('change', (...args) => {
+      if (this.isDestroying || this.isDestroyed) {
+        return;
+      }
+
       let [{ complete, error: stripeError }] = args;
-      this.sendAction('change', stripeElement, ...args);
+      this.change(stripeElement, ...args);
 
       if (complete) {
-        this.sendAction('complete', stripeElement);
+        this._invokeAction('complete', stripeElement)
       } else if (stripeError) {
-        this.sendAction('error', stripeError);
+        this._invokeAction('error', stripeError)
       }
 
       set(this, 'stripeError', stripeError);
     });
-  }
+  },
+
+  _invokeAction(method, ...args) {
+    if (this.isDestroying || this.isDestroyed) {
+      return;
+    }
+
+    if (typeof this[method] === 'function') {
+      this[method](...args)
+    }
+  },
+
+  ready() { },
+  blur() { },
+  focus() { },
+  change() { },
+  complete() { },
+  error() { }
 });

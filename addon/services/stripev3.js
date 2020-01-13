@@ -1,9 +1,29 @@
 /* global Stripe */
 import Service from '@ember/service';
-import { setProperties } from '@ember/object';
+import { getProperties, setProperties } from '@ember/object';
 import { readOnly } from '@ember/object/computed';
 import { resolve } from 'rsvp';
 import loadScript from 'ember-stripe-elements/utils/load-script';
+import EmberError from '@ember/error';
+
+// As listed at https://stripe.com/docs/stripe-js/reference#the-stripe-object
+const STRIPE_FUNCTIONS = [
+  'elements',
+  'createToken',
+  'createSource',
+  'createPaymentMethod',
+  'retrieveSource',
+  'paymentRequest',
+	'redirectToCheckout',
+	'retrievePaymentIntent',
+	'handleCardPayment',
+	'handleCardAction',
+	'confirmPaymentIntent',
+  'handleCardSetup',
+  'confirmCardSetup',
+	'retrieveSetupIntent',
+	'confirmSetupIntent'
+];
 
 export default Service.extend({
   config: null,
@@ -12,20 +32,24 @@ export default Service.extend({
 
   lazyLoad: readOnly('config.lazyLoad'),
   mock: readOnly('config.mock'),
-  publishableKey: readOnly('config.publishableKey'),
+  publishableKey: null,
 
   init() {
     this._super(...arguments);
+    this.set('publishableKey', this.get('config.publishableKey'))
 
     let lazyLoad = this.get('lazyLoad');
-    let mock = this.get('mock');
 
-    if (!lazyLoad || mock) {
+    if (!lazyLoad) {
       this.configure();
     }
   },
 
-  load() {
+  load(publishableKey = null) {
+    if (publishableKey) {
+      this.set('publishableKey', publishableKey);
+    }
+
     let lazyLoad = this.get('lazyLoad');
     let mock = this.get('mock');
     let shouldLoad = lazyLoad && !mock
@@ -44,8 +68,13 @@ export default Service.extend({
     if (!didConfigure) {
       let publishableKey = this.get('publishableKey');
 
-      let { elements, createToken, createSource, retrieveSource, paymentRequest } = new Stripe(publishableKey);
-      setProperties(this, { elements, createToken, createSource, retrieveSource, paymentRequest });
+      if (!publishableKey) {
+        throw new EmberError("stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config.environment.js");
+      }
+
+      let stripe = new Stripe(publishableKey);
+      let functions = getProperties(stripe, STRIPE_FUNCTIONS);
+      setProperties(this, functions);
 
       this.set('didConfigure', true);
     }
