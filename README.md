@@ -1,17 +1,12 @@
 <p align="center">
-  <img src="https://github.com/code-corps/ember-stripe-elements/raw/master/docs/img/ember-stripe-elements.png" />
+  <img src="https://github.com/adopted-ember-addons/ember-stripe-elements/raw/master/docs/img/ember-stripe-elements.png" />
   <br />
-  <img src="https://github.com/code-corps/ember-stripe-elements/raw/master/docs/img/demo.gif" />
+  <img src="https://github.com/adopted-ember-addons/ember-stripe-elements/raw/master/docs/img/demo.gif" />
 </p>
 
 ---
 
-[![Build Status](https://travis-ci.org/code-corps/ember-stripe-elements.svg?branch=master)](https://travis-ci.org/code-corps/ember-stripe-elements)
-[![npm version](https://badge.fury.io/js/ember-stripe-elements.svg)](https://badge.fury.io/js/ember-stripe-elements)
-[![Ember Observer Score](https://emberobserver.com/badges/ember-stripe-elements.svg)](https://emberobserver.com/addons/ember-stripe-elements)
-[![Coverage Status](https://coveralls.io/repos/github/code-corps/ember-stripe-elements/badge.svg?branch=master)](https://coveralls.io/github/code-corps/ember-stripe-elements?branch=master)
-[![Inline docs](http://inch-ci.org/github/code-corps/ember-stripe-elements.svg?branch=master)](http://inch-ci.org/github/code-corps/ember-stripe-elements)
-[![MIT License](https://img.shields.io/npm/l/ember-stripe-elements.svg)](https://github.com/code-corps/ember-stripe-elements/blob/master/LICENSE.md)
+[![Build Status](https://travis-ci.org/adopted-ember-addons/ember-stripe-elements.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-stripe-elements)
 
 <h1>ember-stripe-elements</h1>
 
@@ -45,11 +40,11 @@ A simple Ember wrapper for [Stripe Elements](https://stripe.com/docs/elements).
 $ ember install ember-stripe-elements
 ```
 
-Note if you want to use all the functions for v3 (e.g. `handleCardPayment()`) you need to be using the develop branch after installing add this to your `package.json`
+Note if you want to use all the functions for v3 (e.g. `handleCardPayment()`) you need to be using the master branch after installing add this to your `package.json`
 
 ```json
   "dependencies": {
-    "ember-stripe-elements": "code-corps/ember-stripe-elements#develop"
+    "ember-stripe-elements": "adopted-ember-addons/ember-stripe-elements#master"
   }
 ```
 
@@ -82,7 +77,7 @@ ENV.stripe = {
 };
 ```
 
-When enabled, a [mock Stripe object](https://github.com/code-corps/ember-stripe-elements/blob/develop/addon/utils/stripe-mock.js) will be assigned to `window.Stripe` when your app is initialized.
+When enabled, a [mock Stripe object](https://github.com/adopted-ember-addons/ember-stripe-elements/blob/develop/addon/utils/stripe-mock.js) will be assigned to `window.Stripe` when your app is initialized.
 
 When using the Stripe mock in tests you will likely need to override the mock's methods according to the needs of your test like so:
 
@@ -272,7 +267,7 @@ Fork this repo, make a new branch, and send a pull request. Please add tests in 
 ### Installation
 
 ```sh
-git clone git@github.com:code-corps/ember-stripe-elements.git
+git clone git@github.com:adopted-ember-addons/ember-stripe-elements.git
 cd ember-stripe-elements
 npm install
 ```
