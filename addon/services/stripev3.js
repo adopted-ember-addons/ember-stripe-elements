@@ -3,7 +3,7 @@ import Service from '@ember/service';
 import { getProperties, setProperties } from '@ember/object';
 import { readOnly } from '@ember/object/computed';
 import { resolve } from 'rsvp';
-import loadScript from 'ember-stripe-elements/utils/load-script';
+import loadScript from '@adopted-ember-addons/ember-stripe-elements/utils/load-script';
 import EmberError from '@ember/error';
 
 // As listed at https://stripe.com/docs/stripe-js/reference#the-stripe-object
