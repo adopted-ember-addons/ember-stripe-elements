@@ -40,14 +40,6 @@ A simple Ember wrapper for [Stripe Elements](https://stripe.com/docs/elements).
 $ ember install ember-stripe-elements
 ```
 
-Note if you want to use all the functions for v3 (e.g. `handleCardPayment()`) you need to be using the master branch after installing add this to your `package.json`
-
-```json
-  "dependencies": {
-    "ember-stripe-elements": "adopted-ember-addons/ember-stripe-elements#master"
-  }
-```
-
 ## Compatibility
 
 * Ember.js v3.8 or above
