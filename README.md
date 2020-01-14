@@ -7,6 +7,8 @@
 ---
 
 [![Build Status](https://travis-ci.org/adopted-ember-addons/ember-stripe-elements.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-stripe-elements)
+[![Latest NPM release](https://img.shields.io/npm/v/@adopted-ember-addons/ember-stripe-elements.svg)](https://www.npmjs.com/package/@adopted-ember-addons/ember-stripe-elements)
+[![Ember Observer Score](https://emberobserver.com/badges/@adopted-ember-addons/ember-stripe-elements.svg)](https://emberobserver.com/addons/@adopted-ember-addons/ember-stripe-elements)
 
 <h1>ember-stripe-elements</h1>
 
@@ -40,17 +42,9 @@ A simple Ember wrapper for [Stripe Elements](https://stripe.com/docs/elements).
 $ ember install ember-stripe-elements
 ```
 
-Note if you want to use all the functions for v3 (e.g. `handleCardPayment()`) you need to be using the master branch after installing add this to your `package.json`
-
-```json
-  "dependencies": {
-    "ember-stripe-elements": "adopted-ember-addons/ember-stripe-elements#master"
-  }
-```
-
 ## Compatibility
 
-* Ember.js v2.18 or above
+* Ember.js v3.8 or above
 * Ember CLI v2.13 or above
 * Node.js v8 or above
 

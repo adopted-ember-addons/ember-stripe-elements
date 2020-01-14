@@ -1,17 +1,17 @@
 {{yield (hash
   card=(component "stripe-card"
-    elements=elements
+    elements=this.elements
   )
   cardNumber=(component "stripe-card-number"
-    elements=elements
+    elements=this.elements
   )
   cardExpiry=(component "stripe-card-expiry"
-    elements=elements
+    elements=this.elements
   )
   cardCvc=(component "stripe-card-cvc"
-    elements=elements
+    elements=this.elements
   )
   postalCode=(component "stripe-postal-code"
-    elements=elements
+    elements=this.elements
   )
 )}}
