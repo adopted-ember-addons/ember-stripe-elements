@@ -2,7 +2,7 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-stripe-elements',
+  name: '@adopted-ember-addons/ember-stripe-elements',
 
   contentFor(type, config) {
     let stripeConfig = config.stripe || {};

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import StripeMock from 'ember-stripe-elements/utils/stripe-mock';
+import StripeMock from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
 import StripeService from 'dummy/services/stripev3';
 import env from 'dummy/config/environment';
 

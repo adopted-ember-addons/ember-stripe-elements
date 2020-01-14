@@ -1,1 +1,1 @@
-export { default } from 'ember-stripe-elements/components/stripe-postal-code';
+export { default } from '@adopted-ember-addons/ember-stripe-elements/components/stripe-postal-code';

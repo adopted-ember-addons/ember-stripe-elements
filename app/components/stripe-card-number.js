@@ -1,1 +1,1 @@
-export { default } from 'ember-stripe-elements/components/stripe-card-number';
+export { default } from '@adopted-ember-addons/ember-stripe-elements/components/stripe-card-number';

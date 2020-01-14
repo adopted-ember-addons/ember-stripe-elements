@@ -1,5 +1,5 @@
 import config from '../config/environment';
-import StripeMock from 'ember-stripe-elements/utils/stripe-mock';
+import StripeMock from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
 
 export function initialize() {
   const application = arguments[1] || arguments[0];
