@@ -7,6 +7,8 @@
 ---
 
 [![Build Status](https://travis-ci.org/adopted-ember-addons/ember-stripe-elements.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-stripe-elements)
+[![Latest NPM release](https://img.shields.io/npm/v/@adopted-ember-addons/ember-stripe-elements.svg)](https://www.npmjs.com/package/@adopted-ember-addons/ember-stripe-elements)
+[![Ember Observer Score](https://emberobserver.com/badges/@adopted-ember-addons/ember-stripe-elements.svg)](https://emberobserver.com/addons/@adopted-ember-addons/ember-stripe-elements)
 
 <h1>ember-stripe-elements</h1>
 
