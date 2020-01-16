@@ -107,6 +107,8 @@ export default Route.extend({
 });
 ```
 
+Note that the `load` function returns a `Promise`. By returning this promise you ensure that Stripe is fully loaded before the route procedes to the next `model` hook.
+
 You can also pass `publishableKey` to the `load` function.
 
 ```js
