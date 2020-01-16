@@ -14,6 +14,9 @@
 
 A simple Ember wrapper for [Stripe Elements](https://stripe.com/docs/elements).
 
+## maintainers wanted
+If you can spare some time in helping maintain this addon, please let us know in the [discord](https://discord.gg/emberjs) `adopted-ember-addons` channel or open an issue.
+
 ## Features
 
 - Inject `<script src="https://js.stripe.com/v3/"></script>` into your application's `<body>`
