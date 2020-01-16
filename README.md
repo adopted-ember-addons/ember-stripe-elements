@@ -20,6 +20,7 @@ A simple Ember wrapper for [Stripe Elements](https://stripe.com/docs/elements).
 - Initialize `Stripe` with your publishable key
 - Inject a `stripev3` service into your controllers so you can use the functions usually available on the `stripe` object (see https://stripe.com/docs/stripe-js/reference#the-stripe-object):
   - `stripe.elements()`
+  - `stripe.confirmCardPayment()`
   - `stripe.createToken()`
   - `stripe.createSource()`
   - `stripe.createPaymentMethod()`
