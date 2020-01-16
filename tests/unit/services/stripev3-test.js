@@ -31,6 +31,20 @@ module('Unit | Service | stripev3', function(hooks) {
     elements.restore();
   });
 
+  test('makes Stripe.confirmCardPayment available on the service', function(assert) {
+    assert.expect(1);
+
+    let service = this.subject;
+    let mockOptions = { locale: 'en' };
+
+    let confirmCardPayment = sinon.stub(service, 'confirmCardPayment').callsFake(function(options) {
+      assert.deepEqual(options, mockOptions, 'called with mock options');
+    });
+
+    confirmCardPayment(mockOptions);
+    confirmCardPayment.restore();
+  });
+
   test('makes Stripe.createToken available on the service', function(assert) {
     assert.expect(1);
 

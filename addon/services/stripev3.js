@@ -9,6 +9,7 @@ import EmberError from '@ember/error';
 // As listed at https://stripe.com/docs/stripe-js/reference#the-stripe-object
 const STRIPE_FUNCTIONS = [
   'elements',
+  'confirmCardPayment',
   'createToken',
   'createSource',
   'createPaymentMethod',

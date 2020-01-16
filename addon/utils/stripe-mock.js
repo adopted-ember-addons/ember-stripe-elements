@@ -13,6 +13,7 @@ StripeMock.prototype.elements = function() {
     }
   };
 }
+StripeMock.prototype.confirmCardPayment = function() {};
 StripeMock.prototype.createToken = function() {};
 StripeMock.prototype.createSource = function() {};
 StripeMock.prototype.createPaymentMethod = function() {};
