@@ -43,7 +43,7 @@ If you can spare some time in helping maintain this addon, please let us know in
 ## Installation
 
 ```sh
-$ ember install ember-stripe-elements
+$ ember install @adopted-ember-addons/ember-stripe-elements
 ```
 
 ## Compatibility
