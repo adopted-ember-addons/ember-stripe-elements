@@ -75,7 +75,7 @@ ENV.stripe = {
 };
 ```
 
-When enabled, a [mock Stripe object](https://github.com/the-bionic/ember-stripe-elements/blob/master/addon/utils/stripe-mock.js) will be assigned to `window.Stripe` when your app is initialized.
+When enabled, a [mock Stripe object](https://github.com/adopted-ember-addons/ember-stripe-elements/blob/develop/addon/utils/stripe-mock.js) will be assigned to `window.Stripe` when your app is initialized.
 
 When using the Stripe mock in tests you will likely need to override the mock's methods according to the needs of your test like so:
 
