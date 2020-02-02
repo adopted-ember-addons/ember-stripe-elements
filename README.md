@@ -57,11 +57,15 @@ $ ember install @adopted-ember-addons/ember-stripe-elements
 ### Stripe Publishable Key
 
 You must set your [publishable key](https://support.stripe.com/questions/where-do-i-find-my-api-keys) in `config/environment.js`.
-
+Also, `stripeOptions` contains optional values that you could configure if you want to.
 
 ```js
 ENV.stripe = {
-  publishableKey: 'pk_thisIsATestKey'
+  publishableKey: 'pk_thisIsATestKey',
+  stripeOptions: {
+    stripeAccount: 'acct_test_account',
+    locale: 'en'
+  }
 };
 ```
 
