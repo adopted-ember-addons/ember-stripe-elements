@@ -14,6 +14,7 @@ module('Integration | Component | stripe-elements', function(hooks) {
     const config = {
       mock: true,
       publishableKey: env.stripe.publishableKey,
+      stripeOptions: env.stripe.stripeOptions,
     };
 
     this.owner.register(
