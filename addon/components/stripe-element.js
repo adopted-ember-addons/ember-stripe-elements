@@ -32,7 +32,7 @@ export default class StripeElements extends Component {
     let stripeElement = this.elements.create(this.type, options);
 
     // Mount the Stripe Element onto the mount point
-    stripeElement.mount(element.querySelector('[role="mount-point"]'));
+    stripeElement.mount(element);
 
     // Make the element available to the component
     this.stripeElement = stripeElement;
