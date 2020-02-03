@@ -139,19 +139,19 @@ Every component will:
 
 ### Actions
 
-The components bubble up all of [the JavaScript events that can be handled by the Stripe Element in `element.on()`](https://stripe.com/docs/elements/reference#element-on) from the Ember component using the following actions:
+The components bubble up all of [the JavaScript events that can be handled by the Stripe Element in `element.on()`](https://stripe.com/docs/elements/reference#element-on) from the Ember component using the following actions (upcoming breaking change 1.0.0-rc.2: all actions are now prefixed with 'on' https://github.com/adopted-ember-addons/ember-stripe-elements/issues/7)
 
-- `ready`
-- `blur`
-- `change` (also sets/unsets the `stripeError` property on the component, which can be yielded with the block)
-- `focus`
-- `complete`
-- `error`
+- `onReady`
+- `onBlur`
+- `onChange` (also sets/unsets the `stripeError` property on the component, which can be yielded with the block)
+- `onFocus`
+- `onComplete`
+- `onError`
 
 You could handle these actions yourself, for example:
 
 ```hbs
-{{stripe-card blur="onBlur"}}
+{{stripe-card onBlur=this.onBlur}}
 ```
 
 ### Component types
