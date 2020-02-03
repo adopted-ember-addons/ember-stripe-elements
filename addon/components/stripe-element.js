@@ -1,76 +1,71 @@
-import Component from '@ember/component';
+import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
 import { inject as service } from '@ember/service';
-import { computed, get, set } from '@ember/object';
 
-export default Component.extend({
+export default class StripeElements extends Component {
+
   classNames: ['ember-stripe-element'],
 
-  autofocus: false,
-  options: null,
-  stripeElement: null,
-  stripeError: null,
-  type: null, // Set in components that extend from `stripe-element`
+  @tracked autofocus = false;
+  @tracked options = null;
+  @tracked stripeElement = null;
+  @tracked stripeError = null;
+  @tracked type = null; // Set in components that extend from `stripe-element`
 
-  stripev3: service(),
+  @service('stripev3') stripev3;
 
-  elements: computed({
-    get() {
-      return get(this, 'stripev3.elements')();
-    },
+  get elements() {
+    return this.stripev3.elements();
+  }
 
-    set(key, value) {
-      return value;
-    }
-  }),
+  set elements(value) {
+    this.stripev3.elements = value;
+  }
 
   didInsertElement() {
     this._super(...arguments);
 
     // Fetch user options
-    let options = get(this, 'options') || {};
-
-    // Fetch `type` set by child component
-    let type = get(this, 'type');
+    let options = this.options || {};
 
     // `stripeElement` instead of `element` to distinguish from `this.element`
-    let stripeElement = get(this, 'elements').create(type, options);
+    // Also using `this.type` set by child component
+    let stripeElement = this.elements.create(this.type, options);
 
     // Mount the Stripe Element onto the mount point
     stripeElement.mount(this.element.querySelector('[role="mount-point"]'));
 
     // Make the element available to the component
-    set(this, 'stripeElement', stripeElement);
+    this.stripeElement = stripeElement;
 
     // Set the event listeners
     this.setEventListeners();
-  },
+  }
 
   didRender() {
     this._super(...arguments);
     // Fetch autofocus, set by user
-    let autofocus = get(this, 'autofocus');
-    let stripeElement = get(this, 'stripeElement');
     let iframe = this.element.querySelector('iframe');
-    if (autofocus && iframe) {
+    if (this.autofocus && iframe) {
       iframe.onload = () => {
-        stripeElement.focus();
+        this.stripeElement.focus();
       };
     }
-  },
+  }
 
   didUpdateAttrs() {
     this._super(...arguments);
-    let options = get(this, 'options') || {};
-    get(this, 'stripeElement').update(options);
-  },
+    let options = this.options || {};
+    this.stripeElement.update(options);
+  }
 
   willDestroyElement() {
     this._super(...arguments);
-    get(this, 'stripeElement').unmount();
-  },
+    this.stripeElement.unmount();
+  }
 
   setEventListeners() {
-    let stripeElement = get(this, 'stripeElement');
+    let { stripeElement } = this;
 
     stripeElement.on('ready', (event) => {
       this._invokeAction('onReady', stripeElement, event)
@@ -98,9 +93,9 @@ export default Component.extend({
         this._invokeAction('onError', stripeError)
       }
 
-      set(this, 'stripeError', stripeError);
+      this.stripeError = stripeError;
     });
-  },
+  }
 
   _invokeAction(method, ...args) {
     if (this.isDestroying || this.isDestroyed) {
@@ -110,7 +105,7 @@ export default Component.extend({
     if (typeof this[method] === 'function') {
       this[method](...args)
     }
-  },
+  }
 
   onReady() { },
   onBlur() { },
