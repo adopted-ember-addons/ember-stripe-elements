@@ -1,10 +1,9 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class StripeElements extends Component {
-
-  classNames: ['ember-stripe-element'],
 
   @tracked autofocus = false;
   @tracked options = null;
@@ -12,7 +11,7 @@ export default class StripeElements extends Component {
   @tracked stripeError = null;
   @tracked type = null; // Set in components that extend from `stripe-element`
 
-  @service('stripev3') stripev3;
+  @service stripev3;
 
   get elements() {
     return this.stripev3.elements();
@@ -22,30 +21,30 @@ export default class StripeElements extends Component {
     this.stripev3.elements = value;
   }
 
-  didInsertElement() {
-    this._super(...arguments);
+  @action
+  registerListeners(element) {
 
     // Fetch user options
     let options = this.options || {};
 
-    // `stripeElement` instead of `element` to distinguish from `this.element`
+    // `stripeElement` instead of `element` to distinguish from `element`
     // Also using `this.type` set by child component
     let stripeElement = this.elements.create(this.type, options);
 
     // Mount the Stripe Element onto the mount point
-    stripeElement.mount(this.element.querySelector('[role="mount-point"]'));
+    stripeElement.mount(element.querySelector('[role="mount-point"]'));
 
     // Make the element available to the component
     this.stripeElement = stripeElement;
 
     // Set the event listeners
     this.setEventListeners();
+    this.focusElement(element);
   }
 
-  didRender() {
-    this._super(...arguments);
+  focusElement(element) {
     // Fetch autofocus, set by user
-    let iframe = this.element.querySelector('iframe');
+    let iframe = element.querySelector('iframe');
     if (this.autofocus && iframe) {
       iframe.onload = () => {
         this.stripeElement.focus();
@@ -53,14 +52,13 @@ export default class StripeElements extends Component {
     }
   }
 
-  didUpdateAttrs() {
-    this._super(...arguments);
+  @action
+  onOptionsChange() {
     let options = this.options || {};
     this.stripeElement.update(options);
   }
 
-  willDestroyElement() {
-    this._super(...arguments);
+  willDestroy() {
     this.stripeElement.unmount();
   }
 

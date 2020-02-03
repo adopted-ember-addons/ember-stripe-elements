@@ -1,17 +1,14 @@
-import Component from '@ember/component';
-import layout from '../templates/components/stripe-elements';
+import { tracked } from "@glimmer/tracking";
+import Component from "@glimmer/component";
 import { inject as service } from '@ember/service';
-import { get, set } from '@ember/object';
 
-export default Component.extend({
-  stripe: service('stripev3'),
-  tagName: '',
-  layout,
+export default class StripeElements extends Component {
+  @service('stripev3') stripe;
+  @tracked elements = null;
 
-  init() {
-    this._super(...arguments);
-    let options = get(this, 'options') || {};
-    let elements = get(this, 'stripe').elements(options);
-    set(this, 'elements', elements);
+  constructor(owner, args) {
+    super(owner, args);
+    let options = this.options || {};
+    this.elements = this.stripe.elements(options);
   }
-});
+}
