@@ -12,7 +12,8 @@ module('Unit | Service | stripev3', function(hooks) {
     this.subject = this.owner.factoryFor('service:stripev3').create({
       config: {
         mock: true,
-        publishableKey: env.stripe.publishableKey
+        publishableKey: env.stripe.publishableKey,
+        stripeOptions: env.stripe.stripeOptions,
       }
     });
   });
@@ -246,7 +247,8 @@ module('Unit | Service | stripev3', function(hooks) {
       this.owner.factoryFor('service:stripev3').create({
         config: {
           mock: true,
-          publishableKey: null
+          publishableKey: null,
+          stripeOptions: null,
         }
       });
     }, /Missing Stripe key/);
@@ -257,7 +259,8 @@ module('Unit | Service | stripev3', function(hooks) {
       config: {
         mock: true,
         lazyLoad: true,
-        publishableKey: null
+        publishableKey: null,
+        stripeOptions: null,
       }
     });
 

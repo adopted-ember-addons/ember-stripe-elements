@@ -57,11 +57,15 @@ $ ember install @adopted-ember-addons/ember-stripe-elements
 ### Stripe Publishable Key
 
 You must set your [publishable key](https://support.stripe.com/questions/where-do-i-find-my-api-keys) in `config/environment.js`.
-
+Also, [stripe options](https://stripe.com/docs/js/initializing#init_stripe_js-options) contains optional values that you could configure if you want to.
 
 ```js
 ENV.stripe = {
-  publishableKey: 'pk_thisIsATestKey'
+  publishableKey: 'pk_thisIsATestKey',
+  stripeOptions: {
+    stripeAccount: 'acct_test_account',
+    locale: 'en'
+  }
 };
 ```
 
@@ -112,10 +116,13 @@ export default Route.extend({
 
 Note that the `load` function returns a `Promise`. By returning this promise you ensure that Stripe is fully loaded before the route procedes to the next `model` hook.
 
-You can also pass `publishableKey` to the `load` function.
+You can also pass `publishableKey` and optional `stripeOptions` to the `load` function.
 
 ```js
-this.get('stripe').load('pk_thisIsATestKey');
+this.get('stripe').load('pk_thisIsATestKey', {
+  locale: 'en',
+  stripeAccount: 'acct_24BFMpJ1svR5A89k'
+});
 ```
 
 ## Components

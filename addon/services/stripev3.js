@@ -34,10 +34,12 @@ export default Service.extend({
   lazyLoad: readOnly('config.lazyLoad'),
   mock: readOnly('config.mock'),
   publishableKey: null,
+  stripeOptions: null,
 
   init() {
     this._super(...arguments);
-    this.set('publishableKey', this.get('config.publishableKey'))
+    this.set('publishableKey', this.get('config.publishableKey'));
+    this.set('stripeOptions', this.get('config.stripeOptions'));
 
     let lazyLoad = this.get('lazyLoad');
 
@@ -46,9 +48,13 @@ export default Service.extend({
     }
   },
 
-  load(publishableKey = null) {
+  load(publishableKey = null, stripeOptions = null) {
     if (publishableKey) {
       this.set('publishableKey', publishableKey);
+    }
+
+    if (stripeOptions) {
+      this.set('stripeOptions', stripeOptions);
     }
 
     let lazyLoad = this.get('lazyLoad');
@@ -68,12 +74,13 @@ export default Service.extend({
 
     if (!didConfigure) {
       let publishableKey = this.get('publishableKey');
+      let stripeOptions = this.get('stripeOptions');
 
       if (!publishableKey) {
         throw new EmberError("stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config.environment.js");
       }
 
-      let stripe = new Stripe(publishableKey);
+      let stripe = new Stripe(publishableKey, stripeOptions);
       let functions = getProperties(stripe, STRIPE_FUNCTIONS);
       setProperties(this, functions);
 
