@@ -73,15 +73,15 @@ export default Component.extend({
     let stripeElement = get(this, 'stripeElement');
 
     stripeElement.on('ready', (event) => {
-      this._invokeAction('ready', stripeElement, event)
+      this._invokeAction('onReady', stripeElement, event)
     });
 
     stripeElement.on('blur', (event) => {
-      this._invokeAction('blur', stripeElement, event)
+      this._invokeAction('onBlur', stripeElement, event)
     });
 
     stripeElement.on('focus', (event) => {
-      this._invokeAction('focus', stripeElement, event)
+      this._invokeAction('onFocus', stripeElement, event)
     });
 
     stripeElement.on('change', (...args) => {
@@ -93,9 +93,9 @@ export default Component.extend({
       this.change(stripeElement, ...args);
 
       if (complete) {
-        this._invokeAction('complete', stripeElement)
+        this._invokeAction('onComplete', stripeElement)
       } else if (stripeError) {
-        this._invokeAction('error', stripeError)
+        this._invokeAction('onError', stripeError)
       }
 
       set(this, 'stripeError', stripeError);
@@ -112,10 +112,10 @@ export default Component.extend({
     }
   },
 
-  ready() { },
-  blur() { },
-  focus() { },
-  change() { },
-  complete() { },
-  error() { }
+  onReady() { },
+  onBlur() { },
+  onFocus() { },
+  onChange() { },
+  onComplete() { },
+  onError() { }
 });
