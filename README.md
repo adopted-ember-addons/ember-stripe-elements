@@ -158,7 +158,7 @@ The components bubble up all of [the JavaScript events that can be handled by th
 You could handle these actions yourself, for example:
 
 ```hbs
-<StripeCard @blur={{this.onBlur}}/>
+<StripeCard @onBlur={{this.onBlur}}/>
 ```
 
 ### Component types
