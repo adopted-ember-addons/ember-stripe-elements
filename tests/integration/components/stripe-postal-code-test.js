@@ -25,7 +25,7 @@ module('Integration | Component | stripe-postal-code', function(hooks) {
   });
 
   test('it renders', async function(assert) {
-    await render(hbs`{{stripe-postal-code}}`);
+    await render(hbs`<StripePostalCode/>`);
 
     assert.ok(find('.ember-stripe-element.ember-stripe-postal-code'));
     assert.ok(find('[role="mount-point"]'));

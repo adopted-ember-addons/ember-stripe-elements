@@ -25,7 +25,7 @@ module('Integration | Component | stripe card number', function(hooks) {
   });
 
   test('it renders', async function(assert) {
-    await render(hbs`{{stripe-card-number}}`);
+    await render(hbs`<StripeCardNumber/>`);
 
     assert.ok(find('.ember-stripe-element.ember-stripe-card-number'));
     assert.ok(find('[role="mount-point"]'));

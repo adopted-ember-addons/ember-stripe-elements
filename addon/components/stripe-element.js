@@ -109,11 +109,11 @@ export default class StripeElement extends Component {
     }
   }
 
-  onReady() { },
-  onBlur() { },
-  onFocus() { },
-  onChange() { },
-  onComplete() { },
+  onReady() { }
+  onBlur() { }
+  onFocus() { }
+  onChange() { }
+  onComplete() { }
   onError() { }
 
   @action

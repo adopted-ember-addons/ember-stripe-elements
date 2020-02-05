@@ -24,7 +24,7 @@ module('Integration | Component | stripe-card-cvc', function(hooks) {
   });
 
   test('it renders', async function (assert) {
-    await render(hbs`{{stripe-card-cvc}}`);
+    await render(hbs`<StripeCardCvc/>`);
 
     assert.ok(find('.ember-stripe-element.ember-stripe-card-cvc'), 'should render ember stripe cvc');
     assert.ok(find('[role="mount-point"]'), 'should render stripe mount point');
