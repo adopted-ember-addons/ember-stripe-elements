@@ -6,8 +6,8 @@ import { inject as service } from '@ember/service';
 export default class StripeElement extends Component {
 
   @tracked stripeElement = null;
-  @tracked stripeError = null;
   @tracked type = null; // Set in components that extend from `stripe-element`
+  @tracked _stripeError = null;
 
   @service stripev3;
 
@@ -25,6 +25,14 @@ export default class StripeElement extends Component {
 
   set elements(value) {
     this.stripev3.elements = value;
+  }
+
+  get stripeError() {
+    return this.args.stripeError || this._stripeError;
+  }
+
+  set stripeError(error) {
+    this._stripeError = error;
   }
 
   @action

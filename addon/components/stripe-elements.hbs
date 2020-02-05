@@ -1,19 +1,17 @@
-<div class="ember-stripe-element">
-  {{yield (hash
-    card=(component "stripe-card"
-      elements=this.elements
-    )
-    cardNumber=(component "stripe-card-number"
-      elements=this.elements
-    )
-    cardExpiry=(component "stripe-card-expiry"
-      elements=this.elements
-    )
-    cardCvc=(component "stripe-card-cvc"
-      elements=this.elements
-    )
-    postalCode=(component "stripe-postal-code"
-      elements=this.elements
-    )
-  )}}
-</div>
+{{yield (hash
+  card=(component "stripe-card"
+    elements=this.elements
+  )
+  cardNumber=(component "stripe-card-number"
+    elements=this.elements
+  )
+  cardExpiry=(component "stripe-card-expiry"
+    elements=this.elements
+  )
+  cardCvc=(component "stripe-card-cvc"
+    elements=this.elements
+  )
+  postalCode=(component "stripe-postal-code"
+    elements=this.elements
+  )
+)}}
