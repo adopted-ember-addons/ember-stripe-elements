@@ -87,7 +87,7 @@ export default class StripeElement extends Component {
       }
 
       let [{ complete, error: stripeError }] = args;
-      this.change(stripeElement, ...args);
+      this.onChange(stripeElement, ...args);
 
       if (complete) {
         this._invokeAction('onComplete', stripeElement)
