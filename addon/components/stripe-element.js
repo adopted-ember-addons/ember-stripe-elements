@@ -3,15 +3,21 @@ import { tracked } from "@glimmer/tracking";
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default class StripeElements extends Component {
+export default class StripeElement extends Component {
 
-  @tracked autofocus = false;
-  @tracked options = null;
-  @tracked stripeElement = null;
+  @tracked _stripeElement = null;
   @tracked stripeError = null;
   @tracked type = null; // Set in components that extend from `stripe-element`
 
   @service stripev3;
+
+  get autofocus() {
+    return this.args.autofocus;
+  }
+
+  get options() {
+    return this.args.options || {};
+  }
 
   get elements() {
     return this.stripev3.elements();
@@ -23,12 +29,16 @@ export default class StripeElements extends Component {
 
   @action
   registerListeners(element) {
+    this.mountElement(element)
+    this.setEventListeners();
+    this.focusElement(element);
+  }
 
+  mountElement(element) {
     // Fetch user options
-    let options = this.options || {};
+    let options = this.args.options
 
     // `stripeElement` instead of `element` to distinguish from `element`
-    // Also using `this.type` set by child component
     let stripeElement = this.elements.create(this.type, options);
 
     // Mount the Stripe Element onto the mount point
@@ -36,10 +46,6 @@ export default class StripeElements extends Component {
 
     // Make the element available to the component
     this.stripeElement = stripeElement;
-
-    // Set the event listeners
-    this.setEventListeners();
-    this.focusElement(element);
   }
 
   focusElement(element) {
@@ -50,16 +56,6 @@ export default class StripeElements extends Component {
         this.stripeElement.focus();
       };
     }
-  }
-
-  @action
-  onOptionsChange() {
-    let options = this.options || {};
-    this.stripeElement.update(options);
-  }
-
-  willDestroy() {
-    this.stripeElement.unmount();
   }
 
   setEventListeners() {
@@ -111,4 +107,14 @@ export default class StripeElements extends Component {
   onChange() { },
   onComplete() { },
   onError() { }
-});
+
+  @action
+  onOptionsChange() {
+    let options = this.options;
+    this.stripeElement.update(options);
+  }
+
+  willDestroy() {
+    this.stripeElement.unmount();
+  }
+}

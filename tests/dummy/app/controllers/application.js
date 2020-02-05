@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { get, set } from '@ember/object';
+import { tracked } from "@glimmer/tracking";
 
 let style = {
   style: {
@@ -20,25 +21,23 @@ let style = {
   }
 };
 
-export default Controller.extend({
-  stripev3: service(),
+export default class Application extends Controller {
+  @service('stripev3') stripe;
 
-  token: null,
-  cardOptions: null,
-  options: null,
+  @tracked token = null;
+  @tracked cardOptions = null;
+  @tracked options = null;
 
-  init() {
-    this._super(...arguments);
-    set(this, 'cardOptions', { hidePostalCode: true, style });
-    set(this, 'options', { style });
-  },
-
-  actions: {
-    submit(stripeElement) {
-      let stripe = get(this, 'stripev3');
-      stripe.createToken(stripeElement).then(({token}) => {
-        set(this, 'token', token);
-      });
-    }
+  constructor() {
+    super(...arguments);
+    this.cardOptions = { hidePostalCode: true, style }
+    this.options = { style };
   }
-});
+
+  @action
+  submit(stripeElement) {
+    this.stripe.createToken(stripeElement).then(({token}) => {
+      this.token = token
+    });
+  }
+}
