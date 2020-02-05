@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 
 export default class StripeElement extends Component {
 
-  @tracked _stripeElement = null;
+  @tracked stripeElement = null;
   @tracked stripeError = null;
   @tracked type = null; // Set in components that extend from `stripe-element`
 

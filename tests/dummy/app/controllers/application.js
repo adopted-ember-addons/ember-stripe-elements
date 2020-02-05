@@ -12,7 +12,6 @@ let style = {
       '::placeholder': {
         color: '#666'
       },
-      lineHeight: '24px'
     },
     invalid: {
       color: '#fa755a',
@@ -30,8 +29,8 @@ export default class Application extends Controller {
 
   constructor() {
     super(...arguments);
-    this.cardOptions = { hidePostalCode: true, style }
-    this.options = { style };
+    this.cardOptions = { hidePostalCode: true, ...style }
+    this.options = { ...style };
   }
 
   @action
