@@ -238,10 +238,10 @@ import { inject as service } from '@ember/service';
 import { tracked } from "@glimmer/tracking";
 import { action } from '@ember/object';
 
-export default Controller.extend({
-  stripev3: service(),
+export default StripeController extends Controller {
+  @service stripev3
 
-  options: {
+  options = {
     hidePostalCode: true,
     style: {
       base: {
@@ -258,7 +258,7 @@ export default Controller.extend({
       this.token = token;
     });
   }
-});
+};
 ```
 
 Note the naming convention `stripeElement` instead of `element`, as this could conflict with usage of `element` in an Ember component.
