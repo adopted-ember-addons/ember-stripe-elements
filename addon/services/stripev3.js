@@ -95,7 +95,7 @@ export default Service.extend({
   removeStripeElement(stripeElement){
     this._stripeElements.removeObject(stripeElement);
   },
-  activeElements(){
+  getActiveElements(){
     return [...this._stripeElements];
   }
 });
