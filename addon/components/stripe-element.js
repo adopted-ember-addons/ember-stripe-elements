@@ -70,7 +70,7 @@ export default Component.extend({
   willDestroyElement() {
     this._super(...arguments);
     const stripeElement = get(this, 'stripeElement');
-    this.stripev3.addStripeElement(stripeElement);
+    this.stripev3.removeStripeElement(stripeElement);
     stripeElement.unmount();
   },
 
