@@ -5,6 +5,7 @@ import { readOnly } from '@ember/object/computed';
 import { resolve } from 'rsvp';
 import loadScript from '@adopted-ember-addons/ember-stripe-elements/utils/load-script';
 import EmberError from '@ember/error';
+import { A } from '@ember/array';
 
 // As listed at https://stripe.com/docs/stripe-js/reference#the-stripe-object
 const STRIPE_FUNCTIONS = [
@@ -35,13 +36,14 @@ export default Service.extend({
   mock: readOnly('config.mock'),
   publishableKey: null,
   stripeOptions: null,
-
+  
   init() {
     this._super(...arguments);
     this.set('publishableKey', this.get('config.publishableKey'));
     this.set('stripeOptions', this.get('config.stripeOptions'));
 
     let lazyLoad = this.get('lazyLoad');
+    this.set('_stripeElements', A());
 
     if (!lazyLoad) {
       this.configure();
@@ -86,5 +88,14 @@ export default Service.extend({
 
       this.set('didConfigure', true);
     }
+  },
+  addStripeElement(stripeElement){
+    this._stripeElements.pushObject(stripeElement);
+  },
+  removeStripeElement(stripeElement){
+    this._stripeElements.removeObject(stripeElement);
+  },
+  getActiveElements(){
+    return [...this._stripeElements];
   }
 });

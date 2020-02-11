@@ -40,6 +40,7 @@ export default Component.extend({
 
     // Make the element available to the component
     set(this, 'stripeElement', stripeElement);
+    this.stripev3.addStripeElement(stripeElement);
 
     // Set the event listeners
     this.setEventListeners();
@@ -51,6 +52,8 @@ export default Component.extend({
     let autofocus = get(this, 'autofocus');
     let stripeElement = get(this, 'stripeElement');
     let iframe = this.element.querySelector('iframe');
+    this._invokeAction('onLoad', stripeElement);
+
     if (autofocus && iframe) {
       iframe.onload = () => {
         stripeElement.focus();
@@ -66,7 +69,9 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    get(this, 'stripeElement').unmount();
+    const stripeElement = get(this, 'stripeElement');
+    this.stripev3.removeStripeElement(stripeElement);
+    stripeElement.unmount();
   },
 
   setEventListeners() {
@@ -90,7 +95,7 @@ export default Component.extend({
       }
 
       let [{ complete, error: stripeError }] = args;
-      this.change(stripeElement, ...args);
+      this._invokeAction('onChange', stripeElement, ...args)
 
       if (complete) {
         this._invokeAction('onComplete', stripeElement)
