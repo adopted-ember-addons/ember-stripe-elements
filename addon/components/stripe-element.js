@@ -124,5 +124,6 @@ export default class StripeElement extends Component {
 
   willDestroy() {
     this.stripeElement.unmount();
+    super.willDestroy(...arguments);
   }
 }

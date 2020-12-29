@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-get */
 /* global Stripe */
 import Service from '@ember/service';
 import { getProperties, setProperties } from '@ember/object';
@@ -15,17 +16,18 @@ const STRIPE_FUNCTIONS = [
   'createPaymentMethod',
   'retrieveSource',
   'paymentRequest',
-	'redirectToCheckout',
-	'retrievePaymentIntent',
-	'handleCardPayment',
-	'handleCardAction',
-	'confirmPaymentIntent',
+  'redirectToCheckout',
+  'retrievePaymentIntent',
+  'handleCardPayment',
+  'handleCardAction',
+  'confirmPaymentIntent',
   'handleCardSetup',
   'confirmCardSetup',
-	'retrieveSetupIntent',
-	'confirmSetupIntent'
+  'retrieveSetupIntent',
+  'confirmSetupIntent'
 ];
 
+// eslint-disable-next-line ember/no-classic-classes
 export default Service.extend({
   config: null,
   didConfigure: false,
