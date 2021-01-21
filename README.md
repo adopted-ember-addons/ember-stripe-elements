@@ -86,6 +86,44 @@ When using the Stripe mock in tests you will likely need to override the mock's 
 ```js
 this.owner.lookup('service:stripev3').createToken = () => ({ token: { id: 'token' } });
 ```
+### Testing and Simulating User Input
+
+When a {{stripe-element}} is instantiated and in the DOM, the underlying `stripeElement` is available via the `stripev3` service. Calling `stripeService.getActiveElements()` will return an array of those native stripeElements. 
+
+This is primarily useful in testing.  Stripe renders an iframe which is mostly inaccessible in a test environment, making simulating user input impossible.
+
+You can fill this gap by making the `stripeElement` emit compatible events, which is a reasonable simulation of the results when in a test context. 
+
+This add-on includes some handy utilities for this purpose that can be imported from stripe-mock. 
+
+```js
+import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
+
+stripeEventUtils.triggerReady(stripeElement)
+stripeEventUtils.triggerBlur(stripeElement)
+stripeEventUtils.triggerFocus(stripeElement)
+stripeEventUtils.triggerIncomplete(stripeElement)
+stripeEventUtils.triggerComplete(stripeElement)
+stripeEventUtils.triggerError(stripeElement, additionalArgs)
+stripeEventUtils.triggerChange(stripeElement, additionalArgs)
+```
+
+Both `triggerError` and `triggerChange` accept a second argument that can be used to override the default event attributes provided by this addon.
+
+Note: these will not actually change the content of the Stripe UI, they simply force the stripeElement to emit events that are being listened for. WARNING: These utilities rely on undocumented methods, so this may break in the future. This is only intended for use in a test environment. The events are also not exhaustive, but cover the core user flows.
+
+```js 
+import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
+
+  test('user enters valid data', function(assert) {
+
+    //...some code rendering a {{stripe element}}
+
+    const [stripeElement] = stripeService.getActiveElements();
+    stripeEventUtils.triggerComplete(stripeElement);
+    ...
+  });
+```
 
 ### Lazy loading
 
@@ -146,7 +184,7 @@ Every component will:
 
 ### Actions
 
-The components bubble up all of [the JavaScript events that can be handled by the Stripe Element in `element.on()`](https://stripe.com/docs/elements/reference#element-on) from the Ember component using the following actions (upcoming breaking change 1.0.0-rc.2: all actions are now prefixed with 'on' https://github.com/adopted-ember-addons/ember-stripe-elements/issues/7)
+The components bubble up all of [the JavaScript events that can be handled by the Stripe Element in `element.on()`](https://stripe.com/docs/elements/reference#element-on) from the Ember component using the following actions **(upcoming breaking change 1.0.0-rc.2: all actions are now prefixed with 'on' https://github.com/adopted-ember-addons/ember-stripe-elements/issues/7)**
 
 - `onReady`
 - `onBlur`
