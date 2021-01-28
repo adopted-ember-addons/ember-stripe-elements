@@ -1,81 +1,73 @@
-import Component from '@ember/component';
+import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { computed, get, set } from '@ember/object';
 
-export default Component.extend({
-  classNames: ['ember-stripe-element'],
+export default class StripeElement extends Component {
 
-  autofocus: false,
-  options: null,
-  stripeElement: null,
-  stripeError: null,
-  type: null, // Set in components that extend from `stripe-element`
+  @tracked stripeElement = null;
+  @tracked type = null; // Set in components that extend from `stripe-element`
+  @tracked _stripeError = null;
 
-  stripev3: service(),
+  @service stripev3;
 
-  elements: computed({
-    get() {
-      return get(this, 'stripev3.elements')();
-    },
+  get autofocus() {
+    return this.args.autofocus;
+  }
 
-    set(key, value) {
-      return value;
-    }
-  }),
+  get options() {
+    return this.args.options || {};
+  }
 
-  didInsertElement() {
-    this._super(...arguments);
+  get elements() {
+    return this.stripev3.elements();
+  }
 
+  set elements(value) {
+    this.stripev3.elements = value;
+  }
+
+  get stripeError() {
+    return this.args.stripeError || this._stripeError;
+  }
+
+  set stripeError(error) {
+    this._stripeError = error;
+  }
+
+  @action
+  registerListeners(element) {
+    this.mountElement(element)
+    this.setEventListeners();
+    this.focusElement(element);
+  }
+
+  mountElement(element) {
     // Fetch user options
-    let options = get(this, 'options') || {};
+    let options = this.args.options
 
-    // Fetch `type` set by child component
-    let type = get(this, 'type');
-
-    // `stripeElement` instead of `element` to distinguish from `this.element`
-    let stripeElement = get(this, 'elements').create(type, options);
+    // `stripeElement` instead of `element` to distinguish from `element`
+    let stripeElement = this.elements.create(this.type, options);
 
     // Mount the Stripe Element onto the mount point
-    stripeElement.mount(this.element.querySelector('[role="mount-point"]'));
+    stripeElement.mount(element);
 
     // Make the element available to the component
-    set(this, 'stripeElement', stripeElement);
-    this.stripev3.addStripeElement(stripeElement);
+    this.stripeElement = stripeElement;
+  }
 
-    // Set the event listeners
-    this.setEventListeners();
-  },
-
-  didRender() {
-    this._super(...arguments);
+  focusElement(element) {
     // Fetch autofocus, set by user
-    let autofocus = get(this, 'autofocus');
-    let stripeElement = get(this, 'stripeElement');
-    let iframe = this.element.querySelector('iframe');
-    this._invokeAction('onLoad', stripeElement);
-
-    if (autofocus && iframe) {
+    let iframe = element.querySelector('iframe');
+    if (this.autofocus && iframe) {
       iframe.onload = () => {
-        stripeElement.focus();
+        this.stripeElement.focus();
       };
     }
-  },
-
-  didUpdateAttrs() {
-    this._super(...arguments);
-    let options = get(this, 'options') || {};
-    get(this, 'stripeElement').update(options);
-  },
-
-  willDestroyElement() {
-    this._super(...arguments);
-    const stripeElement = get(this, 'stripeElement');
-    this.stripev3.removeStripeElement(stripeElement);
-    stripeElement.unmount();
-  },
+  }
 
   setEventListeners() {
-    let stripeElement = get(this, 'stripeElement');
+    let { stripeElement } = this;
 
     stripeElement.on('ready', (event) => {
       this._invokeAction('onReady', stripeElement, event)
@@ -95,7 +87,7 @@ export default Component.extend({
       }
 
       let [{ complete, error: stripeError }] = args;
-      this._invokeAction('onChange', stripeElement, ...args)
+      this.onChange(stripeElement, ...args);
 
       if (complete) {
         this._invokeAction('onComplete', stripeElement)
@@ -103,9 +95,9 @@ export default Component.extend({
         this._invokeAction('onError', stripeError)
       }
 
-      set(this, 'stripeError', stripeError);
+      this.stripeError = stripeError;
     });
-  },
+  }
 
   _invokeAction(method, ...args) {
     if (this.isDestroying || this.isDestroyed) {
@@ -115,12 +107,23 @@ export default Component.extend({
     if (typeof this[method] === 'function') {
       this[method](...args)
     }
-  },
+  }
 
-  onReady() { },
-  onBlur() { },
-  onFocus() { },
-  onChange() { },
-  onComplete() { },
+  onReady() { }
+  onBlur() { }
+  onFocus() { }
+  onChange() { }
+  onComplete() { }
   onError() { }
-});
+
+  @action
+  onOptionsChange() {
+    let options = this.options;
+    this.stripeElement.update(options);
+  }
+
+  willDestroy() {
+    this.stripeElement.unmount();
+    super.willDestroy(...arguments);
+  }
+}

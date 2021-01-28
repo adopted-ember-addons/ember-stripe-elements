@@ -25,18 +25,18 @@ module('Integration | Component | stripe-card', function(hooks) {
   });
 
   test('it renders', async function(assert) {
-    await render(hbs`{{stripe-card}}`);
+    await render(hbs`<StripeCard />`);
 
     assert.ok(find('.ember-stripe-element.ember-stripe-card'));
     assert.ok(find('[role="mount-point"]'));
   });
 
   test('yields out error message', async function(assert) {
-    this.stripeError = { message: 'oops' };
+    this.set('stripeError', { message: 'oops' });
     await render(hbs`
-      {{#stripe-card stripeError=stripeError as |stripeElement stripeError|}}
+      <StripeCard @stripeError={{this.stripeError}} as |stripeElement stripeError|>
         {{stripeError.message}}
-      {{/stripe-card}}
+      </StripeCard>
     `);
 
     assert.equal(this.element.querySelector('.ember-stripe-element').textContent.trim(), 'oops');

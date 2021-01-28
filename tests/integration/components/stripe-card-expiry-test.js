@@ -25,7 +25,7 @@ module('Integration | Component | stripe-card-expiry', function(hooks) {
   });
 
   test('it renders', async function(assert) {
-    await render(hbs`{{stripe-card-expiry}}`);
+    await render(hbs`<StripeCardExpiry/>`);
 
     assert.ok(find('.ember-stripe-element.ember-stripe-card-expiry'));
     assert.ok(find('[role="mount-point"]'));

@@ -7,7 +7,7 @@
     {{#if stripeError}}
       <p class="error">{{stripeError.message}}</p>
     {{/if}}
-    <button {{on "submit" stripeElement}} type="button">Submit</button>
+    <button {{on "click" (fn this.submit stripeElement)}} type="button">Submit</button>
     {{#if this.token}}
       <p>Your token: <code>{{this.token.id}}</code></p>
     {{/if}}

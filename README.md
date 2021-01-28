@@ -38,7 +38,7 @@ If you can spare some time in helping maintain this addon, please let us know in
   - `stripe.confirmCardSetup()`
   - `stripe.retrieveSetupIntent()`
   - `stripe.confirmSetupIntent()`
-- Simple, configurable Ember components like `{{stripe-card}}` (demoed in the gif above)
+- Simple, configurable Ember components like `<StripeCard/>` (demoed in the gif above)
 
 ## Installation
 
@@ -48,9 +48,9 @@ $ ember install @adopted-ember-addons/ember-stripe-elements
 
 ## Compatibility
 
-* Ember.js v3.8 or above
+* Ember.js v3.16 or above
 * Ember CLI v2.13 or above
-* Node.js v8 or above
+* Node.js v10 or above
 
 ## Configuration
 
@@ -176,9 +176,9 @@ Every component will:
 - Unmount on `willDestroyElement`
 - Provide access to the `stripev3` service
 - Have the base CSS class name `.ember-stripe-element`
-- Have a CSS class for the specific element that matches the component's name, e.g. `{{ember-stripe-card}}` has the class `.ember-stripe-card`
+- Have a CSS class for the specific element that matches the component's name, e.g. `<EmberStripeCard/>` has the class `.ember-stripe-card`
 - Yield to a block
-- Accept `autofocus=true` passed directly in the component, e.g. `{{stripe-card autofocus=true}}`
+- Accept `autofocus=true` passed directly in the component, e.g. `<StripeCard @autofocus={{true}}/>`
 
 > Every component extends from a `StripeElement` base component which is not exposed to your application.
 
@@ -196,7 +196,7 @@ The components bubble up all of [the JavaScript events that can be handled by th
 You could handle these actions yourself, for example:
 
 ```hbs
-{{stripe-card onBlur=this.onBlur}}
+<StripeCard @onBlur={{this.onBlur}}/>
 ```
 
 ### Component types
@@ -204,7 +204,7 @@ You could handle these actions yourself, for example:
 This addon gives you components that match the different [Element types](https://stripe.com/docs/elements/reference#element-types):
 
 Stripe recommends using the their `card` element - a flexible single-line input that collects all necessary card details.
-The `{{stripe-card}}` component provides this input.
+The `<StripeCard/>` component provides this input.
 
 Additionally Stripe provides the following elements, which you can use to build your own form to collect card details:
 
@@ -213,71 +213,73 @@ Additionally Stripe provides the following elements, which you can use to build 
 - `cardCvc`: the card's CVC number.
 - `postalCode`: the ZIP/postal code.
 
-These are provided via our `{{stripe-elements}}` contextual component, which yields sub-components for each element type:
+These are provided via our `<StripeElements/>` contextual component, which yields sub-components for each element type:
 
 ```hbs
-{{#stripe-elements as |elements|}}
+<StripeElements as |elements|>
   {{elements.cardNumber}}
   {{elements.cardExpiry}}
   {{elements.cardCvc}}
   {{elements.postalCode}}
-{{/stripe-elements}}
+</StripeElements>
 ```
 
-> The `{{stripe-elements}}` component is a tagless component, so does not have any classes etc on it.
+> The `<StripeElements/>` component is a tagless component, so does not have any classes etc on it.
 
 ### Elements Options
 
-The `{{stripe-elements}}` contextual component ensures all the individual elements are created from
+The `<StripeElements/>` contextual component ensures all the individual elements are created from
 the same [Stripe Elements object](https://stripe.com/docs/stripe-js/reference#the-elements-object).
 
-If you want to pass options to the Stripe Elements object, pass them to the `{{stripe-elements}}`
+If you want to pass options to the Stripe Elements object, pass them to the `<StripeElements/>`
 contextual component. For example, when using the single-line `card` element:
 
 ```hbs
-{{#stripe-elements options=elementOptions as |elements|}}
+<StripeElements @options={{this.elementOptions}} as |elements|>
   {{elements.card options=cardOptions}}
-{{/stripe-elements}}
+<StripeElements/>
 ```
 
 Or when creating your own form:
 
 ```hbs
-{{#stripe-elements options=elementsOptions as |elements|}}
+<StripeElements @options={{this.elementsOptions}} as |elements|>
   {{elements.cardNumber options=cardNumberOptions}}
   {{elements.cardExpiry}}
   {{elements.cardCvc}}
-{{/stripe-elements}}
+<StripeElements/>
 ```
 
 ### Block usage with element `options`
 
-In addition to the simple usage above, like `{{stripe-card}}`, you can also yield to a block, which will yield both an `stripeError` object and [the `stripeElement` itself](https://stripe.com/docs/elements/reference#the-element).
+In addition to the simple usage above, like `<StripeCard/>`, you can also yield to a block, which will yield both an `stripeError` object and [the `stripeElement` itself](https://stripe.com/docs/elements/reference#the-element).
 
 For example, you can choose to render out the `stripeError`, as below (runnable in our dummy app).
 
 ```hbs
-{{#stripe-card options=options as |stripeElement stripeError|}}
+<StripeCard @options={{this.options}} as |stripeElement stripeError|}}
   {{#if stripeError}}
     <p class="error">{{stripeError.message}}</p>
   {{/if}}
-  <button {{action "submit" stripeElement}}>Submit</button>
-  {{#if token}}
-    <p>Your token: <code>{{token.id}}</code></p>
+  <button {{on "click" (fn this.submit stripeElement)}}>Submit</button>
+  {{#if this.token}}
+    <p>Your token: <code>{{this.token.id}}</code></p>
   {{/if}}
-{{/stripe-card}}
+</StripeCard>
 ```
 
 Also notice the `submit` action which passes the `stripeElement`; you could define this in your controller like so:
 
 ```js
-import Ember from 'ember';
-const { Controller, get, inject: { service }, set } = Ember;
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+import { tracked } from "@glimmer/tracking";
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  stripev3: service(),
+export default StripeController extends Controller {
+  @service stripev3
 
-  options: {
+  options = {
     hidePostalCode: true,
     style: {
       base: {
@@ -286,17 +288,15 @@ export default Controller.extend({
     }
   },
 
-  token: null,
+  @tracked token: null,
 
-  actions: {
-    submit(stripeElement) {
-      let stripe = get(this, 'stripev3');
-      stripe.createToken(stripeElement).then(({token}) => {
-        set(this, 'token', token);
-      });
-    }
+  @action
+  submit(stripeElement) {
+    this.stripe.createToken(stripeElement).then(({token}) => {
+      this.token = token;
+    });
   }
-});
+};
 ```
 
 Note the naming convention `stripeElement` instead of `element`, as this could conflict with usage of `element` in an Ember component.

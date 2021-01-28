@@ -26,9 +26,9 @@ module('Integration | Component | stripe-elements', function(hooks) {
 
   test('it renders single-line element', async function (assert) {
     await render(hbs`
-      {{#stripe-elements as |elements|}}
+      <StripeElements as |elements|>
         {{elements.card}}
-      {{/stripe-elements}}
+      </StripeElements>
     `);
 
     assert.ok(find('.ember-stripe-card > [role="mount-point"]'));
@@ -36,12 +36,12 @@ module('Integration | Component | stripe-elements', function(hooks) {
 
   test('it renders individual elements', async function (assert) {
     await render(hbs`
-      {{#stripe-elements as |elements|}}
+      <StripeElements as |elements|>
         {{elements.cardNumber}}
         {{elements.cardExpiry}}
         {{elements.cardCvc}}
         {{elements.postalCode}}
-      {{/stripe-elements}}
+      </StripeElements>
     `);
 
     let tests = [

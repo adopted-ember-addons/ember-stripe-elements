@@ -1,10 +1,10 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
-  stripe: service('stripev3'),
+export default class ApplicationRoute extends Route {
+  @service('stripev3') stripe;
 
   beforeModel() {
-    return this.get('stripe').load();
+    return this.stripe.load();
   }
-});
+}
