@@ -88,13 +88,13 @@ this.owner.lookup('service:stripev3').createToken = () => ({ token: { id: 'token
 ```
 ### Testing and Simulating User Input
 
-When a {{stripe-element}} is instantiated and in the DOM, the underlying `stripeElement` is available via the `stripev3` service. Calling `stripeService.getActiveElements()` will return an array of those native stripeElements. 
+When a {{stripe-element}} is instantiated and in the DOM, the underlying `stripeElement` is available via the `stripev3` service. Calling `stripeService.getActiveElements()` will return an array of those native stripeElements.
 
 This is primarily useful in testing.  Stripe renders an iframe which is mostly inaccessible in a test environment, making simulating user input impossible.
 
-You can fill this gap by making the `stripeElement` emit compatible events, which is a reasonable simulation of the results when in a test context. 
+You can fill this gap by making the `stripeElement` emit compatible events, which is a reasonable simulation of the results when in a test context.
 
-This add-on includes some handy utilities for this purpose that can be imported from stripe-mock. 
+This add-on includes some handy utilities for this purpose that can be imported from stripe-mock.
 
 ```js
 import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
@@ -112,7 +112,7 @@ Both `triggerError` and `triggerChange` accept a second argument that can be use
 
 Note: these will not actually change the content of the Stripe UI, they simply force the stripeElement to emit events that are being listened for. WARNING: These utilities rely on undocumented methods, so this may break in the future. This is only intended for use in a test environment. The events are also not exhaustive, but cover the core user flows.
 
-```js 
+```js
 import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
 
   test('user enters valid data', function(assert) {
@@ -216,11 +216,11 @@ Additionally Stripe provides the following elements, which you can use to build 
 These are provided via our `<StripeElements/>` contextual component, which yields sub-components for each element type:
 
 ```hbs
-<StripeElements as |elements|>
-  {{elements.cardNumber}}
-  {{elements.cardExpiry}}
-  {{elements.cardCvc}}
-  {{elements.postalCode}}
+<StripeElements as |Elements|>
+  <Elements.cardNumber />
+  <Elements.cardExpiry />
+  <Elements.cardCvc />
+  <Elements.postalCode />
 </StripeElements>
 ```
 
@@ -228,26 +228,64 @@ These are provided via our `<StripeElements/>` contextual component, which yield
 
 ### Elements Options
 
-The `<StripeElements/>` contextual component ensures all the individual elements are created from
-the same [Stripe Elements object](https://stripe.com/docs/stripe-js/reference#the-elements-object).
+The `<StripeElements/>` contextual component ensures all the individual
+elements are created from the same
+[Stripe Elements object](https://stripe.com/docs/stripe-js/reference#the-elements-object).
 
-If you want to pass options to the Stripe Elements object, pass them to the `<StripeElements/>`
-contextual component. For example, when using the single-line `card` element:
+If you want to pass options to the Stripe Elements object, pass them to the
+`<StripeElements/>` contextual component. For example, when using the
+single-line `card` element:
 
 ```hbs
-<StripeElements @options={{this.elementOptions}} as |elements|>
-  {{elements.card options=cardOptions}}
+<StripeElements @options={{this.elementOptions}} as |Elements|>
+  <Elements.card @options={{this.cardOptions}} />
 <StripeElements/>
 ```
 
 Or when creating your own form:
 
 ```hbs
-<StripeElements @options={{this.elementsOptions}} as |elements|>
-  {{elements.cardNumber options=cardNumberOptions}}
-  {{elements.cardExpiry}}
-  {{elements.cardCvc}}
+<StripeElements @options={{this.elementsOptions}} as |Elements|>
+  <Elements.cardNumber @options={{this.cardNumberOptions}} />
+  <Elements.cardExpiry />
+  <Elements.cardCvc />
 <StripeElements/>
+```
+
+When you are creating your own form, you will need access to the Stripe
+Elements object that links all the individual inputs. To do this, use the
+`onReady` action on any one of the components to store the object for
+use when submitting the form. For example:
+
+```js
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+
+export default class FormComponent extends Component {
+  stripeElement = null;
+
+  @action
+  handleReady(stripeElement) {
+    this.stripeElement = stripeElement;
+  }
+
+  @action
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.args.onSubmit(this.stripeElement);
+  }
+}
+```
+
+```hbs
+<form {{on "submit" this.handleSubmit}}>
+  <StripeElements as |Elements|>
+    <Elements.cardNumber @onReady={{this.handleReady}} />
+    <Elements.cardExpiry />
+    <Elements.cardCvc />
+    <button type="submit">Submit</button>
+  <StripeElements/>
+</form>
 ```
 
 ### Block usage with element `options`

@@ -1,0 +1,32 @@
+<form {{on "submit" this.handleSubmit}}>
+  <StripeElements as |Elements|>
+    <div class="input-group">
+      <label>Card Number</label>
+      <Elements.cardNumber @onReady={{this.handleReady}} as |el error|>
+        {{#if error}}
+          <span class="error">{{error.message}}</span>
+        {{/if}}
+      </Elements.cardNumber>
+    </div>
+
+    <div class="input-group">
+      <label>Expiry Date</label>
+      <Elements.cardExpiry as |el error|>
+        {{#if error}}
+          <span class="error">{{error.message}}</span>
+        {{/if}}
+      </Elements.cardExpiry>
+    </div>
+
+    <div class="input-group">
+      <label>CVC</label>
+      <Elements.cardCvc as |el error|>
+        {{#if error}}
+          <span class="error">{{error.message}}</span>
+        {{/if}}
+      </Elements.cardCvc>
+    </div>
+
+    <button type="submit">Submit</button>
+  </StripeElements>
+</form>

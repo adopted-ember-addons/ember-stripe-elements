@@ -29,7 +29,7 @@ module.exports = function (environment) {
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_thisIsATestKey',
     stripeOptions: {
       locale: 'en',
-      stripeAccount: 'acct_24BFMpJ1svR5A89k'
+      // stripeAccount: 'acct_24BFMpJ1svR5A89k'
     }
   };
 

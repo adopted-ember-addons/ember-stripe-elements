@@ -59,3 +59,11 @@
 <div class="input-group">
   <StripePostalCode @options={{this.options}} />
 </div>
+
+<h2>Custom Form</h2>
+
+<CustomForm @onSubmit={{this.submit}} />
+
+{{#if this.token}}
+  <p>Your token: <code>{{this.token.id}}</code></p>
+{{/if}}

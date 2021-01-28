@@ -20,11 +20,11 @@ export default class StripeElement extends Component {
   }
 
   get elements() {
-    return this.stripev3.elements();
-  }
+    if (this.args._elements) {
+      return this.args._elements;
+    }
 
-  set elements(value) {
-    this.stripev3.elements = value;
+    return this.stripev3.elements();
   }
 
   get stripeError() {
@@ -87,7 +87,7 @@ export default class StripeElement extends Component {
       }
 
       let [{ complete, error: stripeError }] = args;
-      this.onChange(stripeElement, ...args);
+      this.args.onChange?.(stripeElement, ...args);
 
       if (complete) {
         this._invokeAction('onComplete', stripeElement)
@@ -104,17 +104,10 @@ export default class StripeElement extends Component {
       return;
     }
 
-    if (typeof this[method] === 'function') {
-      this[method](...args)
+    if (typeof this.args[method] === 'function') {
+      this.args[method](...args)
     }
   }
-
-  onReady() { }
-  onBlur() { }
-  onFocus() { }
-  onChange() { }
-  onComplete() { }
-  onError() { }
 
   @action
   onOptionsChange() {
