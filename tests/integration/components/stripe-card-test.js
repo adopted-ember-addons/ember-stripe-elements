@@ -22,6 +22,8 @@ module('Integration | Component | stripe-card', function(hooks) {
       StripeService.create({ config }),
       { instantiate: false }
     );
+
+    this.stripe = this.owner.lookup('service:stripev3');
   });
 
   test('it renders', async function(assert) {
@@ -29,6 +31,7 @@ module('Integration | Component | stripe-card', function(hooks) {
 
     assert.ok(find('.ember-stripe-element.ember-stripe-card'));
     assert.ok(find('[role="mount-point"]'));
+    assert.equal(this.stripe.getActiveElements().length, 1);
   });
 
   test('yields out error message', async function(assert) {

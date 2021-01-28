@@ -22,6 +22,8 @@ module('Integration | Component | stripe-postal-code', function(hooks) {
       StripeService.create({ config }),
       { instantiate: false }
     );
+
+    this.stripe = this.owner.lookup('service:stripev3');
   });
 
   test('it renders', async function(assert) {
@@ -29,5 +31,6 @@ module('Integration | Component | stripe-postal-code', function(hooks) {
 
     assert.ok(find('.ember-stripe-element.ember-stripe-postal-code'));
     assert.ok(find('[role="mount-point"]'));
+    assert.equal(this.stripe.getActiveElements().length, 1);
   });
 });

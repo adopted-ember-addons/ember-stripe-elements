@@ -22,12 +22,14 @@ module('Integration | Component | stripe-elements', function(hooks) {
       StripeService.create({ config }),
       { instantiate: false }
     );
+
+    this.stripe = this.owner.lookup('service:stripev3');
   });
 
   test('it renders single-line element', async function (assert) {
     await render(hbs`
-      <StripeElements as |elements|>
-        {{elements.card}}
+      <StripeElements as |Elements|>
+        <Elements.card />
       </StripeElements>
     `);
 
@@ -36,11 +38,11 @@ module('Integration | Component | stripe-elements', function(hooks) {
 
   test('it renders individual elements', async function (assert) {
     await render(hbs`
-      <StripeElements as |elements|>
-        {{elements.cardNumber}}
-        {{elements.cardExpiry}}
-        {{elements.cardCvc}}
-        {{elements.postalCode}}
+      <StripeElements as |Elements|>
+        <Elements.cardNumber />
+        <Elements.cardExpiry />
+        <Elements.cardCvc />
+        <Elements.postalCode />
       </StripeElements>
     `);
 
@@ -50,6 +52,8 @@ module('Integration | Component | stripe-elements', function(hooks) {
       'card-cvc',
       'postal-code'
     ];
+
+    assert.equal(this.stripe.getActiveElements().length, 4);
 
     do {
       let el = tests.shift();

@@ -54,6 +54,7 @@ export default class StripeElement extends Component {
 
     // Make the element available to the component
     this.stripeElement = stripeElement;
+    this.stripev3.addStripeElement(stripeElement);
   }
 
   focusElement(element) {
@@ -117,6 +118,7 @@ export default class StripeElement extends Component {
 
   willDestroy() {
     this.stripeElement.unmount();
+    this.stripev3.removeStripeElement(this.stripeElement);
     super.willDestroy(...arguments);
   }
 }

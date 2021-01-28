@@ -21,6 +21,8 @@ module('Integration | Component | stripe-card-cvc', function(hooks) {
       StripeService.create({ config }),
       { instantiate: false }
     );
+
+    this.stripe = this.owner.lookup('service:stripev3');
   });
 
   test('it renders', async function (assert) {
@@ -28,5 +30,6 @@ module('Integration | Component | stripe-card-cvc', function(hooks) {
 
     assert.ok(find('.ember-stripe-element.ember-stripe-card-cvc'), 'should render ember stripe cvc');
     assert.ok(find('[role="mount-point"]'), 'should render stripe mount point');
+    assert.equal(this.stripe.getActiveElements().length, 1);
   });
 });
