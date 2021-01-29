@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import { render, find, clearRender } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import StripeMock from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
 import StripeService from 'dummy/services/stripev3';
@@ -59,5 +59,9 @@ module('Integration | Component | stripe-elements', function(hooks) {
       let el = tests.shift();
       assert.ok(find(`.ember-stripe-${el} > [role="mount-point"]`), el);
     } while(tests.length);
+
+    await clearRender();
+
+    assert.equal(this.stripe.getActiveElements().length, 0);
   });
 });
