@@ -1,34 +1,59 @@
-let StripeMock = function(publishableKey) {
-  this.publishableKey = publishableKey;
-}
+class StripeMock {
+  publishableKey;
+  options;
 
-StripeMock.prototype.elements = function() {
-  return {
-    create: function() {
-      return {
-        mount: function() {},
-        on: function() {},
-        unmount: function() {}
+  constructor(publishableKey, options) {
+    this.publishableKey = publishableKey;
+    this.options = options;
+  }
+
+  elements() {
+    return {
+      create() {
+        return {
+          mount() {},
+          on() {},
+          unmount() {},
+        };
       }
-    }
-  };
-}
+    };
+  }
 
-StripeMock.prototype.confirmCardPayment = function() {};
-StripeMock.prototype.createToken = function() {};
-StripeMock.prototype.createSource = function() {};
-StripeMock.prototype.createPaymentMethod = function() {};
-StripeMock.prototype.retrieveSource = function() {};
-StripeMock.prototype.paymentRequest = function() {};
-StripeMock.prototype.redirectToCheckout = function() {};
-StripeMock.prototype.retrievePaymentIntent = function() {};
-StripeMock.prototype.handleCardPayment = function() {};
-StripeMock.prototype.handleCardAction = function() {};
-StripeMock.prototype.confirmPaymentIntent = function() {};
-StripeMock.prototype.handleCardSetup = function() {};
-StripeMock.prototype.confirmCardSetup = function() {};
-StripeMock.prototype.retrieveSetupIntent = function() {};
-StripeMock.prototype.confirmSetupIntent = function() {};
+  redirectToCheckout() {}
+  confirmCardPayment() {}
+  confirmAlipayPayment() {}
+  confirmAuBecsDebitPayment() {}
+  confirmBancontactPayment() {}
+  confirmEpsPayment() {}
+  confirmFpxPayment() {}
+  confirmGiropayPayment() {}
+  confirmGrabPayPayment() {}
+  confirmIdealPayment() {}
+  confirmOxxoPayment() {}
+  confirmP24Payment() {}
+  confirmSepaDebitPayment() {}
+  confirmSofortPayment() {}
+  handleCardAction() {}
+  retrievePaymentIntent() {}
+  confirmCardSetup() {}
+  confirmAuBecsDebitSetup() {}
+  confirmBacsDebitSetup() {}
+  confirmBancontactSetup() {}
+  confirmIdealSetup() {}
+  confirmSepaDebitSetup() {}
+  confirmSofortSetup() {}
+  retrieveSetupIntent() {}
+  createPaymentMethod() {}
+  paymentRequest() {}
+  createToken() {}
+  createSource() {}
+  retrieveSource() {}
+  handleCardPayment() {}
+  confirmPaymentIntent() {}
+  handleCardSetup() {}
+  confirmSetupIntent() {}
+  handleFpxPayment() {}
+}
 
 const cardArgs = {
   elementType: "card"
