@@ -10,11 +10,11 @@
 [![Latest NPM release](https://img.shields.io/npm/v/@adopted-ember-addons/ember-stripe-elements.svg)](https://www.npmjs.com/package/@adopted-ember-addons/ember-stripe-elements)
 [![Ember Observer Score](https://emberobserver.com/badges/@adopted-ember-addons/ember-stripe-elements.svg)](https://emberobserver.com/addons/@adopted-ember-addons/ember-stripe-elements)
 
-<h1>ember-stripe-elements</h1>
+# ember-stripe-elements
 
 A simple Ember wrapper for [Stripe Elements](https://stripe.com/docs/elements).
 
-## maintainers wanted
+## Maintainers wanted
 If you can spare some time in helping maintain this addon, please let us know in the [discord](https://discord.gg/emberjs) `adopted-ember-addons` channel or open an issue.
 
 ## Features
@@ -184,7 +184,7 @@ Every component will:
 
 ### Actions
 
-The components bubble up all of [the JavaScript events that can be handled by the Stripe Element in `element.on()`](https://stripe.com/docs/elements/reference#element-on) from the Ember component using the following actions **(upcoming breaking change 1.0.0-rc.2: all actions are now prefixed with 'on' https://github.com/adopted-ember-addons/ember-stripe-elements/issues/7)**
+The components bubble up all of [the JavaScript events that can be handled by the Stripe Element in `element.on()`](https://stripe.com/docs/elements/reference#element-on) from the Ember component using the following actions:
 
 - `onReady`
 - `onBlur`
