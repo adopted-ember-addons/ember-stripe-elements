@@ -79,7 +79,7 @@ export default Service.extend({
       let stripeOptions = this.get('stripeOptions');
 
       if (!publishableKey) {
-        throw new EmberError("stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config.environment.js");
+        throw new EmberError("stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js");
       }
 
       let stripe = new Stripe(publishableKey, stripeOptions);
