@@ -10,14 +10,21 @@
 [![Latest NPM release](https://img.shields.io/npm/v/@adopted-ember-addons/ember-stripe-elements.svg)](https://www.npmjs.com/package/@adopted-ember-addons/ember-stripe-elements)
 [![Ember Observer Score](https://emberobserver.com/badges/@adopted-ember-addons/ember-stripe-elements.svg)](https://emberobserver.com/addons/@adopted-ember-addons/ember-stripe-elements)
 
-# ember-stripe-elements
+
+ember-stripe-elements
+==============================================================================
 
 A simple Ember wrapper for [Stripe Elements](https://stripe.com/docs/elements).
 
-## Maintainers wanted
-If you can spare some time in helping maintain this addon, please let us know in the [discord](https://discord.gg/emberjs) `adopted-ember-addons` channel or open an issue.
 
-## Features
+Maintainers wanted
+------------------------------------------------------------------------------
+
+If you can spare some time in helping maintain this addon, please let us know in the [Discord](https://discord.gg/emberjs) `adopted-ember-addons` channel or open an issue.
+
+
+Features
+------------------------------------------------------------------------------
 
 - Inject `<script src="https://js.stripe.com/v3/"></script>` into your application's `<body>`
 - Initialize `Stripe` with your publishable key
@@ -40,19 +47,25 @@ If you can spare some time in helping maintain this addon, please let us know in
   - `stripe.confirmSetupIntent()`
 - Simple, configurable Ember components like `{{stripe-card}}` (demoed in the gif above)
 
-## Installation
 
-```sh
-$ ember install @adopted-ember-addons/ember-stripe-elements
+Installation
+------------------------------------------------------------------------------
+
+```
+ember install @adopted-ember-addons/ember-stripe-elements
 ```
 
-## Compatibility
+
+Compatibility
+------------------------------------------------------------------------------
 
 * Ember.js v3.8 or above
 * Ember CLI v2.13 or above
 * Node.js v8 or above
 
-## Configuration
+
+Configuration
+------------------------------------------------------------------------------
 
 ### Stripe Publishable Key
 
@@ -64,8 +77,8 @@ ENV.stripe = {
   publishableKey: 'pk_thisIsATestKey',
   stripeOptions: {
     stripeAccount: 'acct_test_account',
-    locale: 'en'
-  }
+    locale: 'en',
+  },
 };
 ```
 
@@ -75,7 +88,7 @@ You can configure the Stripe API to be mocked instead of loaded from `https://js
 
 ```js
 ENV.stripe = {
-  mock: true
+  mock: true,
 };
 ```
 
@@ -115,14 +128,14 @@ Note: these will not actually change the content of the Stripe UI, they simply f
 ```js
 import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
 
-  test('user enters valid data', function(assert) {
+test('user enters valid data', function (assert) {
 
-    //...some code rendering a {{stripe element}}
+  //...some code rendering a {{stripe element}}
 
-    const [stripeElement] = stripeService.getActiveElements();
-    stripeEventUtils.triggerComplete(stripeElement);
-    ...
-  });
+  const [stripeElement] = stripeService.getActiveElements();
+  stripeEventUtils.triggerComplete(stripeElement);
+  ...
+});
 ```
 
 ### Lazy loading
@@ -131,7 +144,7 @@ You can configure Stripe.js to lazy load when you need it.
 
 ```js
 ENV.stripe = {
-  lazyLoad: true
+  lazyLoad: true,
 };
 ```
 
@@ -143,11 +156,11 @@ When enabled, Stripe.js will not be loaded until you call the `load()` function 
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
-  stripe: service('stripev3'),
+export default class SubscriptionRoute extends Route {
+  @service('stripev3') stripe;
 
   beforeModel() {
-    return this.get('stripe').load();
+    return this.stripe.load();
   }
 });
 ```
@@ -157,13 +170,15 @@ Note that the `load` function returns a `Promise`. By returning this promise you
 You can also pass `publishableKey` and optional `stripeOptions` to the `load` function.
 
 ```js
-this.get('stripe').load('pk_thisIsATestKey', {
+this.stripe.load('pk_thisIsATestKey', {
   locale: 'en',
-  stripeAccount: 'acct_24BFMpJ1svR5A89k'
+  stripeAccount: 'acct_24BFMpJ1svR5A89k',
 });
 ```
 
-## Components
+
+Components
+------------------------------------------------------------------------------
 
 ### Basics
 
@@ -196,7 +211,7 @@ The components bubble up all of [the JavaScript events that can be handled by th
 You could handle these actions yourself, for example:
 
 ```hbs
-{{stripe-card onBlur=this.onBlur}}
+<StripeCard @onBlur={{this.onBlur}} />
 ```
 
 ### Component types
@@ -204,7 +219,7 @@ You could handle these actions yourself, for example:
 This addon gives you components that match the different [Element types](https://stripe.com/docs/elements/reference#element-types):
 
 Stripe recommends using the their `card` element - a flexible single-line input that collects all necessary card details.
-The `{{stripe-card}}` component provides this input.
+The `<StripeCard />` component provides this input.
 
 Additionally Stripe provides the following elements, which you can use to build your own form to collect card details:
 
@@ -213,90 +228,87 @@ Additionally Stripe provides the following elements, which you can use to build 
 - `cardCvc`: the card's CVC number.
 - `postalCode`: the ZIP/postal code.
 
-These are provided via our `{{stripe-elements}}` contextual component, which yields sub-components for each element type:
+These are provided via our `<StripeElements />` contextual component, which yields sub-components for each element type:
 
 ```hbs
-{{#stripe-elements as |elements|}}
-  {{elements.cardNumber}}
-  {{elements.cardExpiry}}
-  {{elements.cardCvc}}
-  {{elements.postalCode}}
-{{/stripe-elements}}
+<StripeElements as |elements|>
+  <elements.cardNumber />
+  <elements.cardExpiry />
+  <elements.cardCvc />
+  <elements.postalCode />
+</StripeElements>
 ```
 
-> The `{{stripe-elements}}` component is a tagless component, so does not have any classes etc on it.
+> The `<StripeElements />` component is a tagless component, so does not have any classes etc on it.
 
 ### Elements Options
 
-The `{{stripe-elements}}` contextual component ensures all the individual elements are created from
+The `<StripeElements />` contextual component ensures all the individual elements are created from
 the same [Stripe Elements object](https://stripe.com/docs/stripe-js/reference#the-elements-object).
 
-If you want to pass options to the Stripe Elements object, pass them to the `{{stripe-elements}}`
+If you want to pass options to the Stripe Elements object, pass them to the `<StripeElements />`
 contextual component. For example, when using the single-line `card` element:
 
 ```hbs
-{{#stripe-elements options=elementOptions as |elements|}}
-  {{elements.card options=cardOptions}}
-{{/stripe-elements}}
+<StripeElements @options={{this.elementOptions}} as |elements|>
+  <elements.card @options={{this.cardOptions}} />
+</StripeElements>
 ```
 
 Or when creating your own form:
 
 ```hbs
-{{#stripe-elements options=elementsOptions as |elements|}}
-  {{elements.cardNumber options=cardNumberOptions}}
-  {{elements.cardExpiry}}
-  {{elements.cardCvc}}
-{{/stripe-elements}}
+<StripeElements @options={{this.elementOptions}} as |elements|>
+  <elements.cardNumber @options={{this.cardNumberOptions}} />
+  <elements.cardExpiry />
+  <elements.cardCvc />
+</StripeElements>
 ```
 
 ### Block usage with element `options`
 
-In addition to the simple usage above, like `{{stripe-card}}`, you can also yield to a block, which will yield both an `stripeError` object and [the `stripeElement` itself](https://stripe.com/docs/elements/reference#the-element).
+In addition to the simple usage above, like `<StripeCard />`, you can also yield to a block, which will yield both an `stripeError` object and [the `stripeElement` itself](https://stripe.com/docs/elements/reference#the-element).
 
 For example, you can choose to render out the `stripeError`, as below (runnable in our dummy app).
 
 ```hbs
-{{#stripe-card options=options as |stripeElement stripeError|}}
+<StripeCard @options={{this.options}} as |stripeElement stripeError|>
   {{#if stripeError}}
     <p class="error">{{stripeError.message}}</p>
   {{/if}}
-  <button {{action "submit" stripeElement}}>Submit</button>
-  {{#if token}}
-    <p>Your token: <code>{{token.id}}</code></p>
+  <button {{on "click" (fn this.submit stripeElement)}}>Submit</button>
+  {{#if this.token}}
+    <p>Your token: <code>{{this.token.id}}</code></p>
   {{/if}}
-{{/stripe-card}}
+</StripeCard>
 ```
 
 Also notice the `submit` action which passes the `stripeElement`; you could define this in your controller like so:
 
 ```js
-import Ember from 'ember';
-const { Controller, get, inject: { service }, set } = Ember;
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  stripev3: service(),
+export default class SubscriptionController extends Controller {
+  @service('stripev3') stripe;
 
-  options: {
+  options = {
     hidePostalCode: true,
     style: {
       base: {
-        color: '#333'
-      }
-    }
-  },
+        color: '#333',
+      },
+    },
+  };
 
-  token: null,
+  token = null;
 
-  actions: {
-    submit(stripeElement) {
-      let stripe = get(this, 'stripev3');
-      stripe.createToken(stripeElement).then(({token}) => {
-        set(this, 'token', token);
-      });
-    }
+  @action async submit(stripeElement) {
+    const { token } = await this.stripe.createToken(stripeElement);
+    this.token = token;
   }
-});
+}
 ```
 
 Note the naming convention `stripeElement` instead of `element`, as this could conflict with usage of `element` in an Ember component.
@@ -305,7 +317,9 @@ Note the naming convention `stripeElement` instead of `element`, as this could c
 
 Note that you can use CSS to style some aspects of the components, but keep in mind that [the `styles` object of the `options` takes precedence](https://stripe.com/docs/elements/reference#element-options).
 
-## Contributing
+
+Contributing
+------------------------------------------------------------------------------
 
 Fork this repo, make a new branch, and send a pull request. Please add tests in order to have your change merged.
 
@@ -350,6 +364,8 @@ ember build
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
-## Contributors
+
+Contributors
+------------------------------------------------------------------------------
 
 Thanks to @begedin, @snewcomer, @filipecrosk, and @Kilowhisky for your early help on this!
