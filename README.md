@@ -10,14 +10,21 @@
 [![Latest NPM release](https://img.shields.io/npm/v/@adopted-ember-addons/ember-stripe-elements.svg)](https://www.npmjs.com/package/@adopted-ember-addons/ember-stripe-elements)
 [![Ember Observer Score](https://emberobserver.com/badges/@adopted-ember-addons/ember-stripe-elements.svg)](https://emberobserver.com/addons/@adopted-ember-addons/ember-stripe-elements)
 
-# ember-stripe-elements
+
+ember-stripe-elements
+==============================================================================
 
 A simple Ember wrapper for [Stripe Elements](https://stripe.com/docs/elements).
 
-## Maintainers wanted
-If you can spare some time in helping maintain this addon, please let us know in the [discord](https://discord.gg/emberjs) `adopted-ember-addons` channel or open an issue.
 
-## Features
+Maintainers wanted
+------------------------------------------------------------------------------
+
+If you can spare some time in helping maintain this addon, please let us know in the [Discord](https://discord.gg/emberjs) `adopted-ember-addons` channel or open an issue.
+
+
+Features
+------------------------------------------------------------------------------
 
 - Inject `<script src="https://js.stripe.com/v3/"></script>` into your application's `<body>`
 - Initialize `Stripe` with your publishable key
@@ -40,19 +47,25 @@ If you can spare some time in helping maintain this addon, please let us know in
   - `stripe.confirmSetupIntent()`
 - Simple, configurable Ember components like `<StripeCard/>` (demoed in the gif above)
 
-## Installation
 
-```sh
-$ ember install @adopted-ember-addons/ember-stripe-elements
+Installation
+------------------------------------------------------------------------------
+
+```
+ember install @adopted-ember-addons/ember-stripe-elements
 ```
 
-## Compatibility
+
+Compatibility
+------------------------------------------------------------------------------
 
 * Ember.js v3.16 or above
 * Ember CLI v2.13 or above
 * Node.js v10 or above
 
-## Configuration
+
+Configuration
+------------------------------------------------------------------------------
 
 ### Stripe Publishable Key
 
@@ -64,8 +77,8 @@ ENV.stripe = {
   publishableKey: 'pk_thisIsATestKey',
   stripeOptions: {
     stripeAccount: 'acct_test_account',
-    locale: 'en'
-  }
+    locale: 'en',
+  },
 };
 ```
 
@@ -75,7 +88,7 @@ You can configure the Stripe API to be mocked instead of loaded from `https://js
 
 ```js
 ENV.stripe = {
-  mock: true
+  mock: true,
 };
 ```
 
@@ -115,14 +128,14 @@ Note: these will not actually change the content of the Stripe UI, they simply f
 ```js
 import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
 
-  test('user enters valid data', function(assert) {
+test('user enters valid data', function (assert) {
 
-    //...some code rendering a {{stripe element}}
+  //...some code rendering a {{stripe element}}
 
-    const [stripeElement] = stripeService.getActiveElements();
-    stripeEventUtils.triggerComplete(stripeElement);
-    ...
-  });
+  const [stripeElement] = stripeService.getActiveElements();
+  stripeEventUtils.triggerComplete(stripeElement);
+  ...
+});
 ```
 
 ### Lazy loading
@@ -131,7 +144,7 @@ You can configure Stripe.js to lazy load when you need it.
 
 ```js
 ENV.stripe = {
-  lazyLoad: true
+  lazyLoad: true,
 };
 ```
 
@@ -143,11 +156,11 @@ When enabled, Stripe.js will not be loaded until you call the `load()` function 
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
-  stripe: service('stripev3'),
+export default class SubscriptionRoute extends Route {
+  @service('stripev3') stripe;
 
   beforeModel() {
-    return this.get('stripe').load();
+    return this.stripe.load();
   }
 });
 ```
@@ -157,13 +170,15 @@ Note that the `load` function returns a `Promise`. By returning this promise you
 You can also pass `publishableKey` and optional `stripeOptions` to the `load` function.
 
 ```js
-this.get('stripe').load('pk_thisIsATestKey', {
+this.stripe.load('pk_thisIsATestKey', {
   locale: 'en',
-  stripeAccount: 'acct_24BFMpJ1svR5A89k'
+  stripeAccount: 'acct_24BFMpJ1svR5A89k',
 });
 ```
 
-## Components
+
+Components
+------------------------------------------------------------------------------
 
 ### Basics
 
@@ -196,15 +211,15 @@ The components bubble up all of [the JavaScript events that can be handled by th
 You could handle these actions yourself, for example:
 
 ```hbs
-<StripeCard @onBlur={{this.onBlur}}/>
+<StripeCard @onBlur={{this.onBlur}} />
 ```
 
 ### Component types
 
 This addon gives you components that match the different [Element types](https://stripe.com/docs/elements/reference#element-types):
 
-Stripe recommends using the their `card` element - a flexible single-line input that collects all necessary card details.
-The `<StripeCard/>` component provides this input.
+Stripe recommends using the their `card` element - 
+The `<StripeCard />` component provides this input.
 
 Additionally Stripe provides the following elements, which you can use to build your own form to collect card details:
 
@@ -213,33 +228,32 @@ Additionally Stripe provides the following elements, which you can use to build 
 - `cardCvc`: the card's CVC number.
 - `postalCode`: the ZIP/postal code.
 
-These are provided via our `<StripeElements/>` contextual component, which yields sub-components for each element type:
+
+These are provided via our `<StripeElements />` contextual component, which yields sub-components for each element type:
 
 ```hbs
-<StripeElements as |Elements|>
-  <Elements.cardNumber />
-  <Elements.cardExpiry />
-  <Elements.cardCvc />
-  <Elements.postalCode />
+<StripeElements as |elements|>
+  <elements.cardNumber />
+  <elements.cardExpiry />
+  <elements.cardCvc />
+  <elements.postalCode />
 </StripeElements>
 ```
 
-> The `<StripeElements/>` component is a tagless component, so does not have any classes etc on it.
+> The `<StripeElements />` component is a tagless component, so does not have any classes etc on it.
 
 ### Elements Options
 
-The `<StripeElements/>` contextual component ensures all the individual
-elements are created from the same
-[Stripe Elements object](https://stripe.com/docs/stripe-js/reference#the-elements-object).
+The `<StripeElements />` contextual component ensures all the individual elements are created from
+the same [Stripe Elements object](https://stripe.com/docs/stripe-js/reference#the-elements-object).
 
-If you want to pass options to the Stripe Elements object, pass them to the
-`<StripeElements/>` contextual component. For example, when using the
-single-line `card` element:
+If you want to pass options to the Stripe Elements object, pass them to the `<StripeElements />`
+contextual component. For example, when using the single-line `card` element:
 
 ```hbs
-<StripeElements @options={{this.elementOptions}} as |Elements|>
-  <Elements.card @options={{this.cardOptions}} />
-<StripeElements/>
+<StripeElements @options={{this.elementOptions}} as |elements|>
+  <elements.card @options={{this.cardOptions}} />
+</StripeElements>
 ```
 
 Or when creating your own form:
@@ -290,12 +304,12 @@ export default class FormComponent extends Component {
 
 ### Block usage with element `options`
 
-In addition to the simple usage above, like `<StripeCard/>`, you can also yield to a block, which will yield both an `stripeError` object and [the `stripeElement` itself](https://stripe.com/docs/elements/reference#the-element).
+In addition to the simple usage above, like `<StripeCard />`, you can also yield to a block, which will yield both an `stripeError` object and [the `stripeElement` itself](https://stripe.com/docs/elements/reference#the-element).
 
 For example, you can choose to render out the `stripeError`, as below (runnable in our dummy app).
 
 ```hbs
-<StripeCard @options={{this.options}} as |stripeElement stripeError|}}
+<StripeCard @options={{this.options}} as |stripeElement stripeError|>
   {{#if stripeError}}
     <p class="error">{{stripeError.message}}</p>
   {{/if}}
@@ -314,27 +328,26 @@ import { inject as service } from '@ember/service';
 import { tracked } from "@glimmer/tracking";
 import { action } from '@ember/object';
 
-export default StripeController extends Controller {
+export default class SubscriptionController extends Controller {
   @service stripev3
 
   options = {
     hidePostalCode: true,
     style: {
       base: {
-        color: '#333'
-      }
-    }
-  },
+        color: '#333',
+      },
+    },
+  };
 
   @tracked token: null,
 
-  @action
-  submit(stripeElement) {
-    this.stripe.createToken(stripeElement).then(({token}) => {
-      this.token = token;
-    });
+  @action 
+  async submit(stripeElement) {
+    const { token } = await this.stripe.createToken(stripeElement);
+    this.token = token;
   }
-};
+}
 ```
 
 Note the naming convention `stripeElement` instead of `element`, as this could conflict with usage of `element` in an Ember component.
@@ -343,7 +356,9 @@ Note the naming convention `stripeElement` instead of `element`, as this could c
 
 Note that you can use CSS to style some aspects of the components, but keep in mind that [the `styles` object of the `options` takes precedence](https://stripe.com/docs/elements/reference#element-options).
 
-## Contributing
+
+Contributing
+------------------------------------------------------------------------------
 
 Fork this repo, make a new branch, and send a pull request. Please add tests in order to have your change merged.
 
@@ -388,6 +403,8 @@ ember build
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
-## Contributors
+
+Contributors
+------------------------------------------------------------------------------
 
 Thanks to @begedin, @snewcomer, @filipecrosk, and @Kilowhisky for your early help on this!

@@ -76,7 +76,7 @@ export default class StripeService extends Service {
       let { publishableKey, stripeOptions } = this;
 
       if (!publishableKey) {
-        throw new EmberError("stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config.environment.js");
+        throw new EmberError("stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js");
       }
 
       this._stripe = new Stripe(publishableKey, stripeOptions);
