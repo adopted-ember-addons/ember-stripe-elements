@@ -1,7 +1,7 @@
 /* eslint-env node */
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'dummy',
     environment,
@@ -29,7 +29,7 @@ module.exports = function(environment) {
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_thisIsATestKey',
     stripeOptions: {
       locale: 'en',
-      stripeAccount: 'acct_24BFMpJ1svR5A89k'
+      // stripeAccount: 'acct_24BFMpJ1svR5A89k'
     }
   };
 
@@ -50,6 +50,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+    ENV.APP.autoboot = false;
   }
 
   if (environment === 'production') {

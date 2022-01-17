@@ -45,7 +45,7 @@ Features
   - `stripe.confirmCardSetup()`
   - `stripe.retrieveSetupIntent()`
   - `stripe.confirmSetupIntent()`
-- Simple, configurable Ember components like `{{stripe-card}}` (demoed in the gif above)
+- Simple, configurable Ember components like `<StripeCard/>` (demoed in the gif above)
 
 
 Installation
@@ -59,9 +59,9 @@ ember install @adopted-ember-addons/ember-stripe-elements
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.8 or above
+* Ember.js v3.16 or above
 * Ember CLI v2.13 or above
-* Node.js v8 or above
+* Node.js v10 or above
 
 
 Configuration
@@ -191,9 +191,9 @@ Every component will:
 - Unmount on `willDestroyElement`
 - Provide access to the `stripev3` service
 - Have the base CSS class name `.ember-stripe-element`
-- Have a CSS class for the specific element that matches the component's name, e.g. `{{ember-stripe-card}}` has the class `.ember-stripe-card`
+- Have a CSS class for the specific element that matches the component's name, e.g. `<EmberStripeCard/>` has the class `.ember-stripe-card`
 - Yield to a block
-- Accept `autofocus=true` passed directly in the component, e.g. `{{stripe-card autofocus=true}}`
+- Accept `autofocus=true` passed directly in the component, e.g. `<StripeCard @autofocus={{true}}/>`
 
 > Every component extends from a `StripeElement` base component which is not exposed to your application.
 
@@ -218,7 +218,7 @@ You could handle these actions yourself, for example:
 
 This addon gives you components that match the different [Element types](https://stripe.com/docs/elements/reference#element-types):
 
-Stripe recommends using the their `card` element - a flexible single-line input that collects all necessary card details.
+Stripe recommends using the their `card` element - 
 The `<StripeCard />` component provides this input.
 
 Additionally Stripe provides the following elements, which you can use to build your own form to collect card details:
@@ -227,6 +227,7 @@ Additionally Stripe provides the following elements, which you can use to build 
 - `cardExpiry`: the card's expiration date.
 - `cardCvc`: the card's CVC number.
 - `postalCode`: the ZIP/postal code.
+
 
 These are provided via our `<StripeElements />` contextual component, which yields sub-components for each element type:
 
@@ -258,11 +259,47 @@ contextual component. For example, when using the single-line `card` element:
 Or when creating your own form:
 
 ```hbs
-<StripeElements @options={{this.elementOptions}} as |elements|>
-  <elements.cardNumber @options={{this.cardNumberOptions}} />
-  <elements.cardExpiry />
-  <elements.cardCvc />
-</StripeElements>
+<StripeElements @options={{this.elementsOptions}} as |Elements|>
+  <Elements.cardNumber @options={{this.cardNumberOptions}} />
+  <Elements.cardExpiry />
+  <Elements.cardCvc />
+<StripeElements/>
+```
+
+When you are creating your own form, you will need access to the Stripe
+Elements object that links all the individual inputs. To do this, use the
+`onReady` action on any one of the components to store the object for
+use when submitting the form. For example:
+
+```js
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+
+export default class FormComponent extends Component {
+  stripeElement = null;
+
+  @action
+  handleReady(stripeElement) {
+    this.stripeElement = stripeElement;
+  }
+
+  @action
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.args.onSubmit(this.stripeElement);
+  }
+}
+```
+
+```hbs
+<form {{on "submit" this.handleSubmit}}>
+  <StripeElements as |Elements|>
+    <Elements.cardNumber @onReady={{this.handleReady}} />
+    <Elements.cardExpiry />
+    <Elements.cardCvc />
+    <button type="submit">Submit</button>
+  <StripeElements/>
+</form>
 ```
 
 ### Block usage with element `options`
@@ -288,10 +325,11 @@ Also notice the `submit` action which passes the `stripeElement`; you could defi
 ```js
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { tracked } from "@glimmer/tracking";
 import { action } from '@ember/object';
 
 export default class SubscriptionController extends Controller {
-  @service('stripev3') stripe;
+  @service stripev3
 
   options = {
     hidePostalCode: true,
@@ -302,9 +340,10 @@ export default class SubscriptionController extends Controller {
     },
   };
 
-  token = null;
+  @tracked token: null,
 
-  @action async submit(stripeElement) {
+  @action 
+  async submit(stripeElement) {
     const { token } = await this.stripe.createToken(stripeElement);
     this.token = token;
   }
