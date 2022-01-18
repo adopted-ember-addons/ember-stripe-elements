@@ -1,10 +1,10 @@
 <div class="ember-stripe-element ember-stripe-card-number">
-  <div 
-    role="mount-point" 
+  <div
+    role="mount-point"
     {{did-insert this.registerListeners}}
     {{did-update this.onOptionsChange}}
   ></div>
-  {{#if hasBlock}}
+  {{#if (has-block)}}
     {{yield this.stripeElement this.stripeError}}
   {{/if}}
 </div>

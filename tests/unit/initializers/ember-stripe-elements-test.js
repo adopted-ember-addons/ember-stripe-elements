@@ -1,6 +1,6 @@
 /* global Stripe */
 import Application from '@ember/application';
-
+import Resolver from 'ember-resolver';
 import { initialize } from 'dummy/initializers/ember-stripe-elements';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -18,7 +18,10 @@ module('Unit | Initializer | ember stripe elements', function (hooks) {
       initialize
     });
 
-    this.application = TestApplication.create({ autoboot: false });
+    this.application = TestApplication.create({
+      autoboot: false,
+      Resolver
+    });
   });
 
   hooks.afterEach(function () {

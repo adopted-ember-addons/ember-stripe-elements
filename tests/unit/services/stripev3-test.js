@@ -609,15 +609,17 @@ module('Unit | Service | stripev3', function(hooks) {
   });
 
   test('it throws an error if config.stripe.publishableKey is not set', function (assert) {
-    assert.expectAssertion(() => {
+    assert.expect(1);
+
+    assert.throws(() => {
       this.subject._config = {
         mock: true,
         publishableKey: null,
         stripeOptions: null,
       };
-
       this.subject.configure();
-    }, /Missing Stripe key/);
+    }, new Error('stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'),
+    'Missing config.stripe.publishableKey should throw an error');
   });
 
   test('it does not throw when publishableKey is provided by load method', async function (assert) {

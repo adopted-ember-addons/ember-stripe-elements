@@ -12,6 +12,7 @@
 /.env*
 /.pnp*
 /.sass-cache
+/.eslintcache
 /connect.lock
 /coverage/*
 /libpeerconnection.log
@@ -19,12 +20,11 @@ npm-debug.log*
 testem.log
 
 # ember-try
-.node_modules.ember-try/
-bower.json.ember-try
-package.json.ember-try
-
-.DS_Store
-.env
-
 .DS_Store
 yarn-error.log
+/.node_modules.ember-try/
+/bower.json.ember-try
+/npm-shrinkwrap.json.ember-try
+/package.json.ember-try
+/package-lock.json.ember-try
+/yarn.lock.ember-try
