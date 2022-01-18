@@ -55,6 +55,11 @@ Installation
 ember install @adopted-ember-addons/ember-stripe-elements
 ```
 
+## Breaking Changes
+
+**Version 2.0.0**
+test helpers need to be imported from '@adopted-ember-addons/ember-stripe-elements/test-support'
+
 
 Compatibility
 ------------------------------------------------------------------------------
@@ -110,7 +115,7 @@ You can fill this gap by making the `stripeElement` emit compatible events, whic
 This add-on includes some handy utilities for this purpose that can be imported from stripe-mock.
 
 ```js
-import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
+import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
 stripeEventUtils.triggerReady(stripeElement)
 stripeEventUtils.triggerBlur(stripeElement)
@@ -126,7 +131,7 @@ Both `triggerError` and `triggerChange` accept a second argument that can be use
 Note: these will not actually change the content of the Stripe UI, they simply force the stripeElement to emit events that are being listened for. WARNING: These utilities rely on undocumented methods, so this may break in the future. This is only intended for use in a test environment. The events are also not exhaustive, but cover the core user flows.
 
 ```js
-import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
+import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
 test('user enters valid data', function (assert) {
 
@@ -218,7 +223,7 @@ You could handle these actions yourself, for example:
 
 This addon gives you components that match the different [Element types](https://stripe.com/docs/elements/reference#element-types):
 
-Stripe recommends using the their `card` element - 
+Stripe recommends using the their `card` element -
 The `<StripeCard />` component provides this input.
 
 Additionally Stripe provides the following elements, which you can use to build your own form to collect card details:
@@ -342,7 +347,7 @@ export default class SubscriptionController extends Controller {
 
   @tracked token: null,
 
-  @action 
+  @action
   async submit(stripeElement) {
     const { token } = await this.stripe.createToken(stripeElement);
     this.token = token;
