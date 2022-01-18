@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render, find, clearRender } from '@ember/test-helpers';
-import StripeMock from '@adopted-ember-addons/ember-stripe-elements/utils/stripe-mock';
+import StripeMock from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
 module('Integration | Component | stripe-card-cvc', function(hooks) {
   setupRenderingTest(hooks);
