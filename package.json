@@ -1,6 +1,6 @@
 {
   "name": "@adopted-ember-addons/ember-stripe-elements",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple Ember wrapper for Stripe Elements.",
   "keywords": [
     "credit card",
