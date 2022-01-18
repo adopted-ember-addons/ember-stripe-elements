@@ -58,6 +58,7 @@ ember install @adopted-ember-addons/ember-stripe-elements
 ## Breaking Changes
 
 **Version 2.0.0**
+
 test helpers need to be imported from '@adopted-ember-addons/ember-stripe-elements/test-support'
 
 
