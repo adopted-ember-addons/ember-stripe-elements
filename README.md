@@ -118,7 +118,7 @@ This add-on includes some handy utilities for this purpose that can be imported 
 ```js
 import StripeMock, { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
-hooks.beforeEach(() => window.Stripe = StripeMoc);
+hooks.beforeEach(() => window.Stripe = StripeMock);
 
 stripeEventUtils.triggerReady(stripeElement)
 stripeEventUtils.triggerBlur(stripeElement)
@@ -138,7 +138,7 @@ import StripeMock, { stripeEventUtils } from '@adopted-ember-addons/ember-stripe
 
 module('...', function (hooks) {
 
-  hooks.beforeEach(() => window.Stripe = StripeMoc);
+  hooks.beforeEach(() => window.Stripe = StripeMock);
 
   test('user enters valid data', function (assert) {
 
