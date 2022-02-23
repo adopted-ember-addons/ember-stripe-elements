@@ -116,7 +116,9 @@ You can fill this gap by making the `stripeElement` emit compatible events, whic
 This add-on includes some handy utilities for this purpose that can be imported from stripe-mock.
 
 ```js
-import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
+import { StripeMoc, stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
+
+hooks.beforeEach(() => window.Stripe = StripeMoc);
 
 stripeEventUtils.triggerReady(stripeElement)
 stripeEventUtils.triggerBlur(stripeElement)
@@ -132,15 +134,20 @@ Both `triggerError` and `triggerChange` accept a second argument that can be use
 Note: these will not actually change the content of the Stripe UI, they simply force the stripeElement to emit events that are being listened for. WARNING: These utilities rely on undocumented methods, so this may break in the future. This is only intended for use in a test environment. The events are also not exhaustive, but cover the core user flows.
 
 ```js
-import { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
+import { StripeMock, stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
-test('user enters valid data', function (assert) {
+module('...', function (hooks) {
 
-  //...some code rendering a {{stripe element}}
+  hooks.beforeEach(() => window.Stripe = StripeMoc);
 
-  const [stripeElement] = stripeService.getActiveElements();
-  stripeEventUtils.triggerComplete(stripeElement);
-  ...
+  test('user enters valid data', function (assert) {
+
+    //...some code rendering a {{stripe element}}
+
+    const [stripeElement] = stripeService.getActiveElements();
+    stripeEventUtils.triggerComplete(stripeElement);
+    ...
+  });
 });
 ```
 
