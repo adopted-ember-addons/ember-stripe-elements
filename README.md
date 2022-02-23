@@ -116,7 +116,7 @@ You can fill this gap by making the `stripeElement` emit compatible events, whic
 This add-on includes some handy utilities for this purpose that can be imported from stripe-mock.
 
 ```js
-import { StripeMoc, stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
+import StripeMock, { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
 hooks.beforeEach(() => window.Stripe = StripeMoc);
 
@@ -134,7 +134,7 @@ Both `triggerError` and `triggerChange` accept a second argument that can be use
 Note: these will not actually change the content of the Stripe UI, they simply force the stripeElement to emit events that are being listened for. WARNING: These utilities rely on undocumented methods, so this may break in the future. This is only intended for use in a test environment. The events are also not exhaustive, but cover the core user flows.
 
 ```js
-import { StripeMock, stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
+import StripeMock, { stripeEventUtils } from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
 module('...', function (hooks) {
 
