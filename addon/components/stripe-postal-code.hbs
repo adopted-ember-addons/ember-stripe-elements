@@ -1,9 +1,11 @@
-<div class="ember-stripe-element ember-stripe-postal-code">
+<div class='ember-stripe-element ember-stripe-postal-code'>
+  {{! template-lint-disable no-invalid-role }}
   <div
-    role="mount-point"
+    role='mount-point'
     {{did-insert this.registerListeners}}
     {{did-update this.onOptionsChange}}
   ></div>
+  {{! template-lint-enable no-invalid-role }}
   {{#if (has-block)}}
     {{yield this.stripeElement this.stripeError}}
   {{/if}}

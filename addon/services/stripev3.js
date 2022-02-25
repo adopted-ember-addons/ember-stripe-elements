@@ -15,7 +15,8 @@ export default class StripeService extends Service {
 
   constructor() {
     super(...arguments);
-    const config = getOwner(this).resolveRegistration('config:environment') || {};
+    const config =
+      getOwner(this).resolveRegistration('config:environment') || {};
     this._config = config.stripe || {};
 
     if (!this.lazyLoad) {
@@ -63,7 +64,9 @@ export default class StripeService extends Service {
 
     let { lazyLoad, mock } = this;
     let shouldLoad = lazyLoad && !mock;
-    let doLoad = shouldLoad ? loadScript("https://js.stripe.com/v3/") : resolve();
+    let doLoad = shouldLoad
+      ? loadScript('https://js.stripe.com/v3/')
+      : resolve();
 
     return doLoad.then(() => {
       this.configure();
@@ -76,7 +79,9 @@ export default class StripeService extends Service {
       let { publishableKey, stripeOptions } = this;
 
       if (!publishableKey) {
-        throw new EmberError("stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js");
+        throw new EmberError(
+          'stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'
+        );
       }
 
       this._stripe = new Stripe(publishableKey, stripeOptions);
@@ -126,222 +131,222 @@ export default class StripeService extends Service {
   /**
    * @see https://stripe.com/docs/js/payment_intents/confirm_au_becs_debit_payment
    */
-   confirmAuBecsDebitPayment() {
-     return this.instance.confirmAuBecsDebitPayment(...arguments);
-   }
+  confirmAuBecsDebitPayment() {
+    return this.instance.confirmAuBecsDebitPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_bancontact_payment
-    */
-   confirmBancontactPayment() {
-     return this.instance.confirmBancontactPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_bancontact_payment
+   */
+  confirmBancontactPayment() {
+    return this.instance.confirmBancontactPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_eps_payment
-    */
-   confirmEpsPayment() {
-     return this.instance.confirmEpsPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_eps_payment
+   */
+  confirmEpsPayment() {
+    return this.instance.confirmEpsPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_fpx_payment
-    */
-   confirmFpxPayment() {
-     return this.instance.confirmFpxPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_fpx_payment
+   */
+  confirmFpxPayment() {
+    return this.instance.confirmFpxPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_giropay_payment
-    */
-   confirmGiropayPayment() {
-     return this.instance.confirmGiropayPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_giropay_payment
+   */
+  confirmGiropayPayment() {
+    return this.instance.confirmGiropayPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_grabpay_payment
-    */
-   confirmGrabPayPayment() {
-     return this.instance.confirmGrabPayPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_grabpay_payment
+   */
+  confirmGrabPayPayment() {
+    return this.instance.confirmGrabPayPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_ideal_payment
-    */
-   confirmIdealPayment() {
-     return this.instance.confirmIdealPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_ideal_payment
+   */
+  confirmIdealPayment() {
+    return this.instance.confirmIdealPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_oxxo_payment
-    */
-   confirmOxxoPayment() {
-     return this.instance.confirmOxxoPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_oxxo_payment
+   */
+  confirmOxxoPayment() {
+    return this.instance.confirmOxxoPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_p24_payment
-    */
-   confirmP24Payment() {
-     return this.instance.confirmP24Payment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_p24_payment
+   */
+  confirmP24Payment() {
+    return this.instance.confirmP24Payment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_sepa_debit_payment
-    */
-   confirmSepaDebitPayment() {
-     return this.instance.confirmSepaDebitPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_sepa_debit_payment
+   */
+  confirmSepaDebitPayment() {
+    return this.instance.confirmSepaDebitPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/confirm_sofort_payment
-    */
-   confirmSofortPayment() {
-     return this.instance.confirmSofortPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/confirm_sofort_payment
+   */
+  confirmSofortPayment() {
+    return this.instance.confirmSofortPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/handle_card_action
-    */
-   handleCardAction() {
-     return this.instance.handleCardAction(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/handle_card_action
+   */
+  handleCardAction() {
+    return this.instance.handleCardAction(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_intents/retrieve_payment_intent
-    */
-   retrievePaymentIntent() {
-     return this.instance.retrievePaymentIntent(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_intents/retrieve_payment_intent
+   */
+  retrievePaymentIntent() {
+    return this.instance.retrievePaymentIntent(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/setup_intents/confirm_card_setup
-    */
-   confirmCardSetup() {
-     return this.instance.confirmCardSetup(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/setup_intents/confirm_card_setup
+   */
+  confirmCardSetup() {
+    return this.instance.confirmCardSetup(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/setup_intents/confirm_au_becs_debit_setup
-    */
-   confirmAuBecsDebitSetup() {
-     return this.instance.confirmAuBecsDebitSetup(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/setup_intents/confirm_au_becs_debit_setup
+   */
+  confirmAuBecsDebitSetup() {
+    return this.instance.confirmAuBecsDebitSetup(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/setup_intents/confirm_bacs_debit_setup
-    */
-   confirmBacsDebitSetup() {
-     return this.instance.confirmBacsDebitSetup(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/setup_intents/confirm_bacs_debit_setup
+   */
+  confirmBacsDebitSetup() {
+    return this.instance.confirmBacsDebitSetup(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/setup_intents/confirm_bancontact_setup
-    */
-   confirmBancontactSetup() {
-     return this.instance.confirmBancontactSetup(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/setup_intents/confirm_bancontact_setup
+   */
+  confirmBancontactSetup() {
+    return this.instance.confirmBancontactSetup(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/setup_intents/confirm_ideal_setup
-    */
-   confirmIdealSetup() {
-     return this.instance.confirmIdealSetup(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/setup_intents/confirm_ideal_setup
+   */
+  confirmIdealSetup() {
+    return this.instance.confirmIdealSetup(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/setup_intents/confirm_sepa_debit_setup
-    */
-   confirmSepaDebitSetup() {
-     return this.instance.confirmSepaDebitSetup(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/setup_intents/confirm_sepa_debit_setup
+   */
+  confirmSepaDebitSetup() {
+    return this.instance.confirmSepaDebitSetup(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/setup_intents/confirm_sofort_setup
-    */
-   confirmSofortSetup() {
-     return this.instance.confirmSofortSetup(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/setup_intents/confirm_sofort_setup
+   */
+  confirmSofortSetup() {
+    return this.instance.confirmSofortSetup(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/setup_intents/retrieve_setup_intent
-    */
-   retrieveSetupIntent() {
-     return this.instance.retrieveSetupIntent(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/setup_intents/retrieve_setup_intent
+   */
+  retrieveSetupIntent() {
+    return this.instance.retrieveSetupIntent(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_methods/create_payment_method
-    */
-   createPaymentMethod() {
-     return this.instance.createPaymentMethod(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_methods/create_payment_method
+   */
+  createPaymentMethod() {
+    return this.instance.createPaymentMethod(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/payment_request/create
-    */
-   paymentRequest() {
-     return this.instance.paymentRequest(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/payment_request/create
+   */
+  paymentRequest() {
+    return this.instance.paymentRequest(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/tokens_sources/create_token
-    */
-   createToken() {
-     return this.instance.createToken(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/tokens_sources/create_token
+   */
+  createToken() {
+    return this.instance.createToken(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/tokens_sources/create_source
-    */
-   createSource() {
-     return this.instance.createSource(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/tokens_sources/create_source
+   */
+  createSource() {
+    return this.instance.createSource(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/tokens_sources/retrieve_source
-    */
-   retrieveSource() {
-     return this.instance.retrieveSource(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/tokens_sources/retrieve_source
+   */
+  retrieveSource() {
+    return this.instance.retrieveSource(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/deprecated/handle_card_payment_element
-    * @deprecated
-    */
-   handleCardPayment() {
-     return this.instance.handleCardPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/deprecated/handle_card_payment_element
+   * @deprecated
+   */
+  handleCardPayment() {
+    return this.instance.handleCardPayment(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/deprecated/confirm_payment_intent_element
-    * @deprecated
-    */
-   confirmPaymentIntent() {
-     return this.instance.confirmPaymentIntent(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/deprecated/confirm_payment_intent_element
+   * @deprecated
+   */
+  confirmPaymentIntent() {
+    return this.instance.confirmPaymentIntent(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/deprecated/handle_card_setup_element
-    * @deprecated
-    */
-   handleCardSetup() {
-     return this.instance.handleCardSetup(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/deprecated/handle_card_setup_element
+   * @deprecated
+   */
+  handleCardSetup() {
+    return this.instance.handleCardSetup(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/deprecated/confirm_setup_intent_element
-    * @deprecated
-    */
-   confirmSetupIntent() {
-     return this.instance.confirmSetupIntent(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/deprecated/confirm_setup_intent_element
+   * @deprecated
+   */
+  confirmSetupIntent() {
+    return this.instance.confirmSetupIntent(...arguments);
+  }
 
-   /**
-    * @see https://stripe.com/docs/js/deprecated/handle_fpx_payment
-    * @deprecated
-    */
-   handleFpxPayment() {
-     return this.instance.handleFpxPayment(...arguments);
-   }
+  /**
+   * @see https://stripe.com/docs/js/deprecated/handle_fpx_payment
+   * @deprecated
+   */
+  handleFpxPayment() {
+    return this.instance.handleFpxPayment(...arguments);
+  }
 }

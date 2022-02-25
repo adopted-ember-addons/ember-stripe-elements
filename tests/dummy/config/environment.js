@@ -30,7 +30,7 @@ module.exports = function (environment) {
     stripeOptions: {
       locale: 'en',
       // stripeAccount: 'acct_24BFMpJ1svR5A89k'
-    }
+    },
   };
 
   if (environment === 'development') {

@@ -4,10 +4,10 @@ import { render, find, clearRender } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import StripeMock from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
-module('Integration | Component | stripe-elements', function(hooks) {
+module('Integration | Component | stripe-elements', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     window.Stripe = StripeMock;
     this.stripe = this.owner.lookup('service:stripev3');
     this.stripe.configure();
@@ -24,6 +24,8 @@ module('Integration | Component | stripe-elements', function(hooks) {
   });
 
   test('it renders individual elements', async function (assert) {
+    assert.expect(6);
+
     await render(hbs`
       <StripeElements as |Elements|>
         <Elements.cardNumber />
@@ -33,22 +35,17 @@ module('Integration | Component | stripe-elements', function(hooks) {
       </StripeElements>
     `);
 
-    let tests = [
-      'card-number',
-      'card-expiry',
-      'card-cvc',
-      'postal-code'
-    ];
+    let tests = ['card-number', 'card-expiry', 'card-cvc', 'postal-code'];
 
-    assert.equal(this.stripe.getActiveElements().length, 4);
+    assert.strictEqual(this.stripe.getActiveElements().length, 4);
 
     do {
       let el = tests.shift();
       assert.ok(find(`.ember-stripe-${el} > [role="mount-point"]`), el);
-    } while(tests.length);
+    } while (tests.length);
 
     await clearRender();
 
-    assert.equal(this.stripe.getActiveElements().length, 0);
+    assert.strictEqual(this.stripe.getActiveElements().length, 0);
   });
 });

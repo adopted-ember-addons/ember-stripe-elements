@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { tracked } from "@glimmer/tracking";
+import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
 let style = {
@@ -11,15 +11,15 @@ let style = {
       fontFamily: '"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
       fontSize: '14px',
       '::placeholder': {
-        color: '#666'
+        color: '#666',
       },
-      lineHeight: '24px'
+      lineHeight: '24px',
     },
     invalid: {
       color: '#fa755a',
-      iconColor: '#fa755a'
-    }
-  }
+      iconColor: '#fa755a',
+    },
+  },
 };
 
 export default class Application extends Controller {
@@ -31,7 +31,7 @@ export default class Application extends Controller {
 
   constructor() {
     super(...arguments);
-    this.cardOptions = { hidePostalCode: true, ...style }
+    this.cardOptions = { hidePostalCode: true, ...style };
     this.options = { ...style };
   }
 
@@ -40,8 +40,8 @@ export default class Application extends Controller {
     assert('Must have a Stripe Element', Boolean(stripeElement));
     this.token = null;
 
-    this.stripe.createToken(stripeElement).then(({token}) => {
-      this.token = token
+    this.stripe.createToken(stripeElement).then(({ token }) => {
+      this.token = token;
     });
   }
 }
