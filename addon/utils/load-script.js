@@ -17,17 +17,25 @@ export default function loadScript(url) {
       let element = document.createElement('script');
       element.type = 'text/javascript';
       element.async = false;
-      element.addEventListener('load', () => {
-        run(() => {
-          resolve();
-        });
-      }, false);
-      element.addEventListener('error', () => {
-        let error = new Error(`Could not load script ${url}`);
-        run(() => {
-          reject(error);
-        });
-      }, false);
+      element.addEventListener(
+        'load',
+        () => {
+          run(() => {
+            resolve();
+          });
+        },
+        false
+      );
+      element.addEventListener(
+        'error',
+        () => {
+          let error = new Error(`Could not load script ${url}`);
+          run(() => {
+            reject(error);
+          });
+        },
+        false
+      );
 
       element.src = url;
 

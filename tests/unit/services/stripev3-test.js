@@ -3,10 +3,10 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import StripeMock from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
-module('Unit | Service | stripev3', function(hooks) {
+module('Unit | Service | stripev3', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     window.Stripe = StripeMock;
     this.subject = this.owner.lookup('service:stripev3');
   });
@@ -156,7 +156,11 @@ module('Unit | Service | stripev3', function(hooks) {
     let stub = sinon.stub(this.subject.instance, 'confirmGiropayPayment');
     stub.returns(expected);
 
-    let actual = this.subject.confirmGiropayPayment(clientSecret, data, options);
+    let actual = this.subject.confirmGiropayPayment(
+      clientSecret,
+      data,
+      options
+    );
 
     assert.ok(stub.calledOnce);
     assert.ok(stub.calledWith(clientSecret, data, options));
@@ -174,7 +178,11 @@ module('Unit | Service | stripev3', function(hooks) {
     let stub = sinon.stub(this.subject.instance, 'confirmGrabPayPayment');
     stub.returns(expected);
 
-    let actual = this.subject.confirmGrabPayPayment(clientSecret, data, options);
+    let actual = this.subject.confirmGrabPayPayment(
+      clientSecret,
+      data,
+      options
+    );
 
     assert.ok(stub.calledOnce);
     assert.ok(stub.calledWith(clientSecret, data, options));
@@ -611,15 +619,20 @@ module('Unit | Service | stripev3', function(hooks) {
   test('it throws an error if config.stripe.publishableKey is not set', function (assert) {
     assert.expect(1);
 
-    assert.throws(() => {
-      this.subject._config = {
-        mock: true,
-        publishableKey: null,
-        stripeOptions: null,
-      };
-      this.subject.configure();
-    }, new Error('stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'),
-    'Missing config.stripe.publishableKey should throw an error');
+    assert.throws(
+      () => {
+        this.subject._config = {
+          mock: true,
+          publishableKey: null,
+          stripeOptions: null,
+        };
+        this.subject.configure();
+      },
+      new Error(
+        'stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'
+      ),
+      'Missing config.stripe.publishableKey should throw an error'
+    );
   });
 
   test('it does not throw when publishableKey is provided by load method', async function (assert) {

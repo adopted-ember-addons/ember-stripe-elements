@@ -1,4 +1,4 @@
-import Component from "@glimmer/component";
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 
 export default class StripeElements extends Component {

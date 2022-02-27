@@ -1,10 +1,9 @@
-import Component from "@glimmer/component";
-import { tracked } from "@glimmer/tracking";
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class StripeElement extends Component {
-
   @tracked stripeElement = null;
   @tracked type = null; // Set in components that extend from `stripe-element`
   @tracked _stripeError = null;
@@ -37,14 +36,14 @@ export default class StripeElement extends Component {
 
   @action
   registerListeners(element) {
-    this.mountElement(element)
+    this.mountElement(element);
     this.setEventListeners();
     this.focusElement(element);
   }
 
   mountElement(element) {
     // Fetch user options
-    let options = this.args.options
+    let options = this.args.options;
 
     // `stripeElement` instead of `element` to distinguish from `element`
     let stripeElement = this.elements.create(this.type, options);
@@ -71,15 +70,15 @@ export default class StripeElement extends Component {
     let { stripeElement } = this;
 
     stripeElement.on('ready', (event) => {
-      this._invokeAction('onReady', stripeElement, event)
+      this._invokeAction('onReady', stripeElement, event);
     });
 
     stripeElement.on('blur', (event) => {
-      this._invokeAction('onBlur', stripeElement, event)
+      this._invokeAction('onBlur', stripeElement, event);
     });
 
     stripeElement.on('focus', (event) => {
-      this._invokeAction('onFocus', stripeElement, event)
+      this._invokeAction('onFocus', stripeElement, event);
     });
 
     stripeElement.on('change', (...args) => {
@@ -91,9 +90,9 @@ export default class StripeElement extends Component {
       this.args.onChange?.(stripeElement, ...args);
 
       if (complete) {
-        this._invokeAction('onComplete', stripeElement)
+        this._invokeAction('onComplete', stripeElement);
       } else if (stripeError) {
-        this._invokeAction('onError', stripeError)
+        this._invokeAction('onError', stripeError);
       }
 
       this.stripeError = stripeError;
@@ -106,7 +105,7 @@ export default class StripeElement extends Component {
     }
 
     if (typeof this.args[method] === 'function') {
-      this.args[method](...args)
+      this.args[method](...args);
     }
   }
 

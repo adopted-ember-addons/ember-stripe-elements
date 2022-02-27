@@ -13,5 +13,5 @@ module.exports = {
     if (type === 'body' && !lazyLoad && !mock) {
       return '<script type="text/javascript" src="https://js.stripe.com/v3/"></script>';
     }
-  }
+  },
 };
