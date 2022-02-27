@@ -12,8 +12,14 @@ class StripeMock {
       create() {
         return {
           mount() {},
-          on() {},
+          on(eventName, fn) {
+            this._eventListeners[eventName] = fn;
+          },
           unmount() {},
+          _eventListeners: {},
+          _emitEvent(eventName, options) {
+            this._eventListeners[eventName]?.(options);
+          },
         };
       },
     };
