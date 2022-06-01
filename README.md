@@ -120,13 +120,13 @@ import StripeMock, { stripeEventUtils } from '@adopted-ember-addons/ember-stripe
 
 hooks.beforeEach(() => window.Stripe = StripeMock);
 
-stripeEventUtils.triggerReady(stripeElement)
-stripeEventUtils.triggerBlur(stripeElement)
-stripeEventUtils.triggerFocus(stripeElement)
-stripeEventUtils.triggerIncomplete(stripeElement)
-stripeEventUtils.triggerComplete(stripeElement)
-stripeEventUtils.triggerError(stripeElement, additionalArgs)
-stripeEventUtils.triggerChange(stripeElement, additionalArgs)
+stripeEventUtils.triggerReady(stripeElement);
+stripeEventUtils.triggerBlur(stripeElement);
+stripeEventUtils.triggerFocus(stripeElement);
+stripeEventUtils.triggerIncomplete(stripeElement);
+stripeEventUtils.triggerComplete(stripeElement);
+stripeEventUtils.triggerError(stripeElement, additionalArgs);
+stripeEventUtils.triggerChange(stripeElement, additionalArgs);
 ```
 
 Both `triggerError` and `triggerChange` accept a second argument that can be used to override the default event attributes provided by this addon.
@@ -342,7 +342,7 @@ import { tracked } from "@glimmer/tracking";
 import { action } from '@ember/object';
 
 export default class SubscriptionController extends Controller {
-  @service stripev3
+  @service stripev3;
 
   options = {
     hidePostalCode: true,
@@ -353,7 +353,7 @@ export default class SubscriptionController extends Controller {
     },
   };
 
-  @tracked token: null,
+  @tracked token = null;
 
   @action
   async submit(stripeElement) {
