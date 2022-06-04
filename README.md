@@ -175,7 +175,7 @@ export default class SubscriptionRoute extends Route {
   beforeModel() {
     return this.stripe.load();
   }
-});
+}
 ```
 
 Note that the `load` function returns a `Promise`. By returning this promise you ensure that Stripe is fully loaded before the route procedes to the next `model` hook.
