@@ -3,7 +3,6 @@ import Service from '@ember/service';
 import { getOwner } from '@ember/application';
 import { resolve } from 'rsvp';
 import loadScript from '@adopted-ember-addons/ember-stripe-elements/utils/load-script';
-import EmberError from '@ember/error';
 import { A } from '@ember/array';
 import { assert } from '@ember/debug';
 
@@ -79,7 +78,7 @@ export default class StripeService extends Service {
       let { publishableKey, stripeOptions } = this;
 
       if (!publishableKey) {
-        throw new EmberError(
+        throw new Error(
           'stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'
         );
       }
