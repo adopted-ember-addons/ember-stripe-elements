@@ -9,7 +9,7 @@ module('Integration | Component | stripe-card-cvc', function (hooks) {
 
   hooks.beforeEach(function () {
     window.Stripe = StripeMock;
-    this.stripe = this.owner.lookup('service:stripev3');
+    this.stripe = this.owner.lookup('service:stripe');
     this.stripe.configure();
   });
 

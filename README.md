@@ -28,7 +28,7 @@ Features
 
 - Inject `<script src="https://js.stripe.com/v3/"></script>` into your application's `<body>`
 - Initialize `Stripe` with your publishable key
-- Inject a `stripev3` service into your controllers so you can use the functions usually available on the `stripe` object (see https://stripe.com/docs/stripe-js/reference#the-stripe-object):
+- Inject a `stripe` service into your controllers so you can use the functions usually available on the `stripe` object (see https://stripe.com/docs/stripe-js/reference#the-stripe-object):
   - `stripe.elements()`
   - `stripe.confirmCardPayment()`
   - `stripe.createToken()`
@@ -103,11 +103,11 @@ When enabled, a [mock Stripe object](https://github.com/adopted-ember-addons/emb
 When using the Stripe mock in tests you will likely need to override the mock's methods according to the needs of your test like so:
 
 ```js
-this.owner.lookup('service:stripev3').createToken = () => ({ token: { id: 'token' } });
+this.owner.lookup('service:stripe').createToken = () => ({ token: { id: 'token' } });
 ```
 ### Testing and Simulating User Input
 
-When a {{stripe-element}} is instantiated and in the DOM, the underlying `stripeElement` is available via the `stripev3` service. Calling `stripeService.getActiveElements()` will return an array of those native stripeElements.
+When a {{stripe-element}} is instantiated and in the DOM, the underlying `stripeElement` is available via the `stripe` service. Calling `stripeService.getActiveElements()` will return an array of those native stripeElements.
 
 This is primarily useful in testing.  Stripe renders an iframe which is mostly inaccessible in a test environment, making simulating user input impossible.
 
@@ -170,7 +170,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default class SubscriptionRoute extends Route {
-  @service('stripev3') stripe;
+  @service stripe;
 
   beforeModel() {
     return this.stripe.load();
@@ -202,7 +202,7 @@ Every component will:
 - Bubble the proper JavaScript events into actions
 - Mount Stripe's own `StripeElement` in a `<div role="mount-point">` on `didInsertElement`
 - Unmount on `willDestroyElement`
-- Provide access to the `stripev3` service
+- Provide access to the `stripe` service
 - Have the base CSS class name `.ember-stripe-element`
 - Have a CSS class for the specific element that matches the component's name, e.g. `<EmberStripeCard/>` has the class `.ember-stripe-card`
 - Yield to a block
@@ -342,7 +342,7 @@ import { tracked } from "@glimmer/tracking";
 import { action } from '@ember/object';
 
 export default class SubscriptionController extends Controller {
-  @service stripev3;
+  @service stripe;
 
   options = {
     hidePostalCode: true,

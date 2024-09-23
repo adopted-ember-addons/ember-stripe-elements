@@ -79,7 +79,7 @@ export default class StripeService extends Service {
 
       if (!publishableKey) {
         throw new Error(
-          'stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'
+          'stripe: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'
         );
       }
 

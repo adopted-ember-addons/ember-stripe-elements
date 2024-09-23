@@ -23,7 +23,7 @@ let style = {
 };
 
 export default class Application extends Controller {
-  @service('stripev3') stripe;
+  @service stripe;
 
   @tracked token = null;
   @tracked cardOptions = null;

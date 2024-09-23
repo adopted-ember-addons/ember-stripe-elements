@@ -8,7 +8,7 @@ export default class StripeElement extends Component {
   @tracked type = null; // Set in components that extend from `stripe-element`
   @tracked _stripeError = null;
 
-  @service stripev3;
+  @service stripe;
 
   get autofocus() {
     return this.args.autofocus;
@@ -23,7 +23,7 @@ export default class StripeElement extends Component {
       return this.args._elements;
     }
 
-    return this.stripev3.elements();
+    return this.stripe.elements();
   }
 
   get stripeError() {
@@ -53,7 +53,7 @@ export default class StripeElement extends Component {
 
     // Make the element available to the component
     this.stripeElement = stripeElement;
-    this.stripev3.addStripeElement(stripeElement);
+    this.stripe.addStripeElement(stripeElement);
   }
 
   focusElement(element) {
@@ -117,7 +117,7 @@ export default class StripeElement extends Component {
 
   willDestroy() {
     this.stripeElement.unmount();
-    this.stripev3.removeStripeElement(this.stripeElement);
+    this.stripe.removeStripeElement(this.stripeElement);
     super.willDestroy(...arguments);
   }
 }

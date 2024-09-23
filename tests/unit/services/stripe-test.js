@@ -3,12 +3,12 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import StripeMock from '@adopted-ember-addons/ember-stripe-elements/test-support';
 
-module('Unit | Service | stripev3', function (hooks) {
+module('Unit | Service | stripe', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
     window.Stripe = StripeMock;
-    this.subject = this.owner.lookup('service:stripev3');
+    this.subject = this.owner.lookup('service:stripe');
   });
 
   test('it proxies stripe.elements', function (assert) {
@@ -629,7 +629,7 @@ module('Unit | Service | stripev3', function (hooks) {
         this.subject.configure();
       },
       new Error(
-        'stripev3: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'
+        'stripe: Missing Stripe key, please set `ENV.stripe.publishableKey` in config/environment.js'
       ),
       'Missing config.stripe.publishableKey should throw an error'
     );
