@@ -167,7 +167,7 @@ When enabled, Stripe.js will not be loaded until you call the `load()` function 
 // subscription page route
 
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class SubscriptionRoute extends Route {
   @service('stripev3') stripe;
@@ -337,7 +337,7 @@ Also notice the `submit` action which passes the `stripeElement`; you could defi
 
 ```js
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { tracked } from "@glimmer/tracking";
 import { action } from '@ember/object';
 
