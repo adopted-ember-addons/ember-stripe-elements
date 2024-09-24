@@ -1,10 +1,8 @@
-/* global Stripe */
 import Service from '@ember/service';
 import { getOwner } from '@ember/application';
-import { resolve } from 'rsvp';
-import loadScript from '@adopted-ember-addons/ember-stripe-elements/utils/load-script';
 import { A } from '@ember/array';
 import { assert } from '@ember/debug';
+import { loadStripe } from '@stripe/stripe-js';
 
 export default class StripeService extends Service {
   _config = null;
@@ -17,14 +15,6 @@ export default class StripeService extends Service {
     const config =
       getOwner(this).resolveRegistration('config:environment') || {};
     this._config = config.stripe || {};
-
-    if (!this.lazyLoad) {
-      this.configure();
-    }
-  }
-
-  get lazyLoad() {
-    return Boolean(this._config.lazyLoad);
   }
 
   get mock() {
@@ -52,7 +42,7 @@ export default class StripeService extends Service {
     return this._stripe;
   }
 
-  load(publishableKey = null, stripeOptions = null) {
+  async load(publishableKey = null, stripeOptions = null) {
     if (publishableKey) {
       this.publishableKey = publishableKey;
     }
@@ -61,20 +51,7 @@ export default class StripeService extends Service {
       this.stripeOptions = stripeOptions;
     }
 
-    let { lazyLoad, mock } = this;
-    let shouldLoad = lazyLoad && !mock;
-    let doLoad = shouldLoad
-      ? loadScript('https://js.stripe.com/v3/')
-      : resolve();
-
-    return doLoad.then(() => {
-      this.configure();
-      this._didLoad = true;
-    });
-  }
-
-  configure() {
-    if (!this._stripe) {
+    if (!this.mock && !this._stripe) {
       let { publishableKey, stripeOptions } = this;
 
       if (!publishableKey) {
@@ -83,7 +60,8 @@ export default class StripeService extends Service {
         );
       }
 
-      this._stripe = new Stripe(publishableKey, stripeOptions);
+      this._stripe = await loadStripe(publishableKey, stripeOptions);
+      this._didLoad = true;
     }
   }
 

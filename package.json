@@ -30,6 +30,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^4.5.0",
     "ember-cli-babel": "^7.26.11",
     "ember-cli-htmlbars": "^6.0.1"
   },

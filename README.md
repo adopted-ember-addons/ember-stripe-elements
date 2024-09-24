@@ -26,7 +26,7 @@ If you can spare some time in helping maintain this addon, please let us know in
 Features
 ------------------------------------------------------------------------------
 
-- Inject `<script src="https://js.stripe.com/v3/"></script>` into your application's `<body>`
+- Install `@stripe/stripe-js`
 - Initialize `Stripe` with your publishable key
 - Inject a `stripev3` service into your controllers so you can use the functions usually available on the `stripe` object (see https://stripe.com/docs/stripe-js/reference#the-stripe-object):
   - `stripe.elements()`
@@ -88,9 +88,39 @@ ENV.stripe = {
 };
 ```
 
+### Loading Stripe
+
+Stripe.js will not be loaded until you call the `load()` function on the service. It's best to call this function in a route's `beforeModel` hook.
+
+```js
+// subscription page route
+
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
+
+export default class SubscriptionRoute extends Route {
+  @service('stripev3') stripe;
+
+  beforeModel() {
+    return this.stripe.load();
+  }
+}
+```
+
+Note that the `load` function returns a `Promise`. By returning this promise you ensure that Stripe is fully loaded before the route procedes to the next `model` hook.
+
+You can also pass `publishableKey` and optional `stripeOptions` to the `load` function.
+
+```js
+this.stripe.load('pk_thisIsATestKey', {
+  locale: 'en',
+  stripeAccount: 'acct_24BFMpJ1svR5A89k',
+});
+```
+
 ### Mocking the Stripe API
 
-You can configure the Stripe API to be mocked instead of loaded from `https://js.stripe.com/v3/`. This is useful for testing.
+You can configure the Stripe API to be mocked instead of loaded from `@stripe/stripe-js`. This is useful for testing.
 
 ```js
 ENV.stripe = {
@@ -148,44 +178,6 @@ module('...', function (hooks) {
     stripeEventUtils.triggerComplete(stripeElement);
     ...
   });
-});
-```
-
-### Lazy loading
-
-You can configure Stripe.js to lazy load when you need it.
-
-```js
-ENV.stripe = {
-  lazyLoad: true,
-};
-```
-
-When enabled, Stripe.js will not be loaded until you call the `load()` function on the service. It's best to call this function in a route's `beforeModel` hook.
-
-```js
-// subscription page route
-
-import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
-
-export default class SubscriptionRoute extends Route {
-  @service('stripev3') stripe;
-
-  beforeModel() {
-    return this.stripe.load();
-  }
-}
-```
-
-Note that the `load` function returns a `Promise`. By returning this promise you ensure that Stripe is fully loaded before the route procedes to the next `model` hook.
-
-You can also pass `publishableKey` and optional `stripeOptions` to the `load` function.
-
-```js
-this.stripe.load('pk_thisIsATestKey', {
-  locale: 'en',
-  stripeAccount: 'acct_24BFMpJ1svR5A89k',
 });
 ```
 
